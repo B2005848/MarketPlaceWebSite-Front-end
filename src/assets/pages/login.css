@@ -1,0 +1,31 @@
+.form-group {
+  padding: 15px;
+}
+
+.btn-log {
+  padding: 15px 30px 15px 30px;
+}
+/* css for login-page */
+
+/* css for sign up page */
+
+.button-sig {
+  padding: 15px 50px 15px 50px;
+  background-color: #fbdd74;
+  font-size: 25px;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  transition: 0.8s;
+}
+
+.button-sig:hover {
+  background-color: #ff6e6c;
+}
+
+.notification {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  border-radius: 13px;
+  text-align: center;
+}

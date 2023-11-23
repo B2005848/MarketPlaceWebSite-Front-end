@@ -1,0 +1,32 @@
+.container {
+  padding: 50px;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+form {
+  border: 1px solid;
+  padding: 50px;
+  border-radius: 13px;
+  background-color: rgb(255, 255, 255);
+}
+.form-group {
+  padding: 15px;
+}
+
+.btn-log {
+  padding: 15px 100px 15px 100px;
+  color: azure;
+  background-color: rgb(234, 1, 41);
+}
+
+.notification {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  border-radius: 13px;
+  text-align: center;
+}

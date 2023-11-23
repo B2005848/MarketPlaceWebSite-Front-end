@@ -1,0 +1,37 @@
+.menu {
+  color: #313131;
+  font-size: 13.125px;
+  line-height: 1.5cm;
+  height: 100vh;
+  border-radius: 13px;
+}
+
+.item-list {
+  transition: background-color 0.2s;
+  border-radius: 13px;
+}
+
+.icon {
+  color: #54667a;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 20px;
+  padding-left: 10px;
+  text-align: center;
+}
+
+.title-icon-menu {
+  color: #54667a;
+  font-family: Nunito Sans;
+  font-size: 13.125px;
+  font-weight: 300;
+  line-height: 20px;
+  text-align: left;
+}
+
+.item-list:hover {
+  background-color: #fbdd74;
+
+  opacity: 1;
+  border-radius: 13px;
+}

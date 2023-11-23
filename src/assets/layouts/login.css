@@ -1,0 +1,40 @@
+.layout-background {
+  background-color: #f4effc;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+}
+
+.lg-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.1fr 1fr;
+  height: 100vh;
+}
+
+.container.lg-grid div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logohome {
+  border-right: solid 2px;
+  height: 50%;
+  margin: auto;
+  opacity: 0.2;
+}
+.fade-in {
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

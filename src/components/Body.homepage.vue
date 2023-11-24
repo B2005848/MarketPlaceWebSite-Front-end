@@ -2,21 +2,38 @@
   <div>
     <div class="row">
       <div v-for="(product, index) in data" :key="index" class="col-md-2 mb-4">
-        <a href="">
+        <a href="" class="card-link">
           <div class="card" style="height: 300px">
             <img :src="product.ImageURL" class="card-img-top" alt="" />
             <div class="card-body">
               <h5
-                style="font-size: 12px; max-width: 100%; max-height: 3.6em"
+                style="
+                  font-size: 12px;
+                  max-width: 100%;
+                  max-height: 3.6em;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: normal;
+                "
                 class="card-title"
               >
                 {{ product.Name }}
               </h5>
             </div>
             <div class="price text-center">
-              <p style="font-size: 12px" class="card-text">
+              <p
+                style="font-size: 12px; max-width: 100%; padding-bottom: 10px"
+                class="card-text"
+              >
                 {{ product.Price }}.000 VNĐ
               </p>
+            </div>
+            <div class="overlay">
+              <font-awesome-icon
+                icon="fa-solid fa-cart-plus"
+                size="2x"
+                style="color: #ef4565; font-weight: 500px"
+              />
             </div>
           </div>
         </a>
@@ -79,8 +96,30 @@ a {
 
 <style scoped>
 .card:hover {
-  border: 1px red solid;
+  border: 2px #ef4565 solid;
   transform: translateY(-5px);
   transition: 0.5s;
+  filter: brightness(85%);
+  transition: filter 0.3s ease;
+}
+
+.card:hover {
+  opacity: 0.5;
+}
+.card-link {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.card:hover .overlay {
+  opacity: 1;
 }
 </style>

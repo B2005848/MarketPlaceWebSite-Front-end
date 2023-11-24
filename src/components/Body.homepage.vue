@@ -3,18 +3,26 @@
     <div class="row">
       <div v-for="(product, index) in data" :key="index" class="col-md-2 mb-4">
         <a href="">
-          <div class="card" style="max-width: 320px">
+          <div class="card" style="height: 300px">
             <img :src="product.ImageURL" class="card-img-top" alt="" />
             <div class="card-body">
-              <h5 style="font-size: 12px" class="card-title">
+              <h5
+                style="font-size: 12px; max-width: 100%; max-height: 3.6em"
+                class="card-title"
+              >
                 {{ product.Name }}
               </h5>
-              <p class="card-text">{{ product.Price }}.000 VNĐ</p>
+            </div>
+            <div class="price text-center">
+              <p style="font-size: 12px" class="card-text">
+                {{ product.Price }}.000 VNĐ
+              </p>
             </div>
           </div>
         </a>
       </div>
     </div>
+
     <div class="mt-3" aria-label="Page navigation">
       <paginate
         v-model="currentPage"

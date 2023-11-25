@@ -18,6 +18,7 @@
     </router-link>
 
     <!-- list cart -->
+    <!-- list cart -->
     <div v-if="showTable" class="cart-list">
       <div class="table-responsive">
         <table class="table table-striped text-center">
@@ -33,7 +34,6 @@
                   :disabled="loading"
                 />
               </th>
-
               <th>Products</th>
               <th>Unit price</th>
               <th>Quantity</th>
@@ -51,8 +51,6 @@
                   :disabled="loading"
                 />
               </td>
-
-              <!-- name product -->
               <td>
                 <div>
                   <img
@@ -62,35 +60,24 @@
                     alt=""
                   />
                 </div>
-                <div>
-                  {{ record.Name }}
-                </div>
+                <div>{{ record.name || "N/A" }}</div>
               </td>
-
-              <!-- unit price -->
-              <td>
-                {{ record.Price }}
-              </td>
+              <td>{{ record.price || "N/A" }}</td>
               <td>
                 <div>
-                  <!-- btn -- -->
                   <button
                     @click="decrementQuantity(record)"
                     :disabled="record.Quantity <= 1 || loading"
                   >
                     -
                   </button>
-
-                  <!-- quantity -->
                   <input
                     class="text-center"
                     size="1"
                     type="text"
-                    v-model="record.Quantity"
+                    v-model="record.quantity"
                     @input="updateTotal(record)"
                   />
-
-                  <!-- btn ++ -->
                   <button
                     @click="incrementQuantity(record)"
                     :disabled="loading"
@@ -99,13 +86,10 @@
                   </button>
                 </div>
               </td>
-
               <td style="color: red">
                 <sup><u>đ</u></sup
-                >{{ record.Total }}.000
+                >{{ record.price * record.Quantity }}.000
               </td>
-
-              <!-- delete btn products -->
               <td>
                 <button @click="deleteProduct(index)" :disabled="loading">
                   Delete
@@ -143,41 +127,41 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const selectAll = ref(false);
-const selectAllRows = () => {
-  products.value.forEach((row) => (row.isSelected = selectAll.value));
-};
 const showTable = ref(true);
 const products = ref([]);
 const totalPages = ref(0);
-let currentPage = ref(1);
-const loading = ref();
-const getData = async (page) => {
-  try {
-    const response = await window.axios.get(
-      `http://localhost:3000/api/products/getAllProducts/?page=${page}`
-    );
-    products.value = response.data.products;
-    totalPages.value = response.data.totalPages;
-    if (products.value.length <= 0) {
-      router.push({ name: "Cart-empty" });
-      showTable.value = false;
-    } else {
-      showTable.value = true;
-    }
-    console.log(response);
-  } catch (error) {
-    console.error(error);
+
+const getCartFromLocalStorage = () => {
+  const storedCart = JSON.parse(localStorage.getItem("cart"));
+  if (storedCart) {
+    products.value = storedCart.map((item) => {
+      return {
+        id: item.id,
+        name: item.name || "N/A",
+        price: item.price || 0,
+        Quantity: item.Quantity || 0,
+        quantity: item.quantity || 0,
+      };
+    });
+    totalPages.value = 1; // Nếu bạn có số trang trong giỏ hàng, bạn cần cập nhật lại
+    selectAll.value = false;
+    showTable.value = products.value.length > 0;
+  } else {
+    showTable.value = false;
+    router.push("Carts/empty");
   }
 };
 
 // Insert Quantity
 const incrementQuantity = (record) => {
   record.Quantity++;
+  updateLocalStorage();
 };
 
 const decrementQuantity = (record) => {
   if (record.Quantity > 1) {
     record.Quantity--;
+    updateLocalStorage();
   }
 };
 
@@ -193,18 +177,27 @@ watch(
   () => calculateTotal.value,
   (newTotal) => {
     console.log("calculateTotal changed:", newTotal);
+    updateLocalStorage();
   }
 );
 
 const updateTotal = (record) => {
   record.Total = record.Quantity * record.Price;
+  updateLocalStorage();
 };
+
 // delete products button
 const deleteProduct = (index) => {
   products.value.splice(index, 1);
+  updateLocalStorage();
 };
+
+const updateLocalStorage = () => {
+  localStorage.setItem("cart", JSON.stringify(products.value));
+};
+
 onMounted(() => {
-  getData(currentPage.value);
+  getCartFromLocalStorage();
 });
 </script>
 

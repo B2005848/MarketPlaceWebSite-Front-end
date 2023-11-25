@@ -68,7 +68,7 @@
                 icon="fas fa-cart-shopping"
                 style="color: #04245d"
               />
-              <span>(1)</span>
+              <span v-if="cartQuantity > 0">({{ cartQuantity }})</span>
             </router-link>
           </div>
         </div>
@@ -102,6 +102,14 @@ const showLogin = computed(() => {
 const performSearch = () => {
   alert("ok");
 };
+
+const cartQuantity = computed(() => {
+  // Lấy giỏ hàng từ localStorage hoặc trả về mảng rỗng nếu không có
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Tính tổng số lượng sản phẩm trong giỏ hàng
+  return cart.reduce((total, item) => total + item.quantity, 0);
+});
 </script>
 
 <style scoped>

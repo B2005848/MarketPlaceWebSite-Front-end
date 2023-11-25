@@ -33,6 +33,7 @@
                 icon="fa-solid fa-cart-plus"
                 size="2x"
                 style="color: #ef4565; font-weight: 500px"
+                @click="addToCart(product)"
               />
             </div>
           </div>
@@ -81,6 +82,28 @@ const fetchProducts = async (page) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const addToCart = (product) => {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const existingProduct = cart.find((item) => item.id === product.ProductID);
+
+  if (existingProduct) {
+    existingProduct.quantity++;
+  } else {
+    cart.push({
+      id: product.ProductID,
+      name: product.Name,
+      price: product.Price,
+      quantity: 1,
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  alert(`Đã thêm ${product.Name} vào giỏ hàng.`);
+  console.log("Cart after adding:", cart);
 };
 
 onMounted(() => {

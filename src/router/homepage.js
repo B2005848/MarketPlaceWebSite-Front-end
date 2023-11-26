@@ -11,12 +11,28 @@ const homepage = [
 
   {
     path: "/carts",
-    name: "Cart-list",
-    component: () => import("../pages/homepage/cart.vue"),
+    name: "Cart",
+    component: () => import("../layouts/cart.vue"),
     meta: {
       title: "Shineonyou | Shopping Cart",
     },
     children: [
+      {
+        path: "check",
+        name: "Cart-list",
+        component: () => import("../pages/homepage/cart.process.vue"),
+        meta: {
+          title: "Shineonyou | Cart",
+        },
+      },
+      {
+        path: "checkout",
+        name: "Cart-checkout",
+        component: () => import("../pages/homepage/checkout.process.vue"),
+        meta: {
+          title: "Shineonyou | Checkout",
+        },
+      },
       {
         path: "empty",
         name: "Cart-empty",
@@ -29,15 +45,6 @@ const homepage = [
   },
 
   {
-    path: "/updateProducts",
-    name: "file",
-    component: () => import("../components/updateProduct.vue"),
-    meta: {
-      title: "Update Products",
-    },
-  },
-
-  {
     path: "/accounts",
     name: "Login",
     component: () => import("../layouts/login.vue"),
@@ -47,7 +54,7 @@ const homepage = [
     children: [
       {
         path: "login",
-        name: "login",
+        name: "login-page",
         component: () => import("../pages/login/index.vue"),
         meta: {
           title: "Shineonyou - Login",

@@ -106,7 +106,7 @@ const onSubmit = async () => {
     if (response.status === 200) {
       const isUser = response.data && response.data.checklogin.RoleID !== "Ad";
       if (isUser) {
-        authStore.login(response.data.checklogin.LastName);
+        authStore.login(response.data.checklogin.Username);
         router.push("/");
         console.log("Login success");
       }

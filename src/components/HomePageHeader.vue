@@ -1,3 +1,49 @@
+<script setup>
+import { ref, computed, onMounted } from "vue";
+import { useAuthUser } from "@/stores/auth-userlogin";
+const searchInput = ref("");
+const authStore = useAuthUser();
+const showLogin = computed(() => {
+  return !authStore.userName;
+});
+
+const performSearch = () => {
+  alert("ok");
+};
+
+const username = authStore.userName;
+const userInfo = ref({
+  FirstName: "",
+  LastName: "",
+  ContactAddress: "",
+  Email: "",
+});
+const getInfoUser = async () => {
+  try {
+    const response = await window.axios.get(
+      `http://localhost:3000/api/users/getuserbyusername/${username}`
+    );
+    console.log(response);
+
+    if (response.status === 200) {
+      userInfo.value = response.data;
+    }
+  } catch (error) {
+    console.error("An error occurred while logging in:", error);
+  }
+};
+
+onMounted(() => {
+  getInfoUser();
+});
+
+const cartQuantity = computed(() => {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  return cart.reduce((total, item) => total + item.quantity, 0);
+});
+</script>
+
 <template>
   <!-- item-header 1 -->
   <header>
@@ -63,7 +109,7 @@
 
           <!-- cart -->
           <div class="me-3">
-            <router-link to="/carts">
+            <router-link to="/carts/check">
               <font-awesome-icon
                 icon="fas fa-cart-shopping"
                 style="color: #04245d"
@@ -75,42 +121,48 @@
       </div>
 
       <!-- login.signup -->
-      <div class="mt-2">
-        <span class="me-3"
-          ><h3 style="color: #3da9fc">Hi,</h3>
-          {{ authStore.userName }}</span
-        >
-        <span v-if="showLogin" class="me-3">
-          <router-link to="accounts/login"
-            ><span style="font-size: 12px">Login</span></router-link
+
+      <div class="mt-2 text-center">
+        <div class="btn-group">
+          <button
+            style="border: none"
+            type="button"
+            class="btn"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
           >
-        </span>
+            <font-awesome-icon icon="fa-solid fa-list" size="xl" />
+          </button>
+          <div>
+            <ul class="dropdown-menu">
+              <li class="mb-3">
+                <p style="font-size: 12px">{{ userInfo.Email }}</p>
+              </li>
+              <li>
+                <img :src="userInfo.ImageURL" width="50" alt="" />
+                <p>Hi, {{ userInfo.FirstName + userInfo.LastName }}</p>
+              </li>
+              <li>
+                <span v-if="showLogin" class="me-3">
+                  <router-link :to="{ name: 'login-page' }"
+                    ><span style="font-size: 12px">LOGIN</span></router-link
+                  >
+                </span>
+              </li>
+              <li>
+                <span class="me-3">
+                  <router-link :to="{ name: 'Homepage' }"
+                    ><span style="font-size: 12px">LOG OUT</span></router-link
+                  >
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </header>
 </template>
-
-<script setup>
-import { ref, computed } from "vue";
-import { useAuthUser } from "@/stores/auth-userlogin";
-const searchInput = ref("");
-const authStore = useAuthUser();
-const showLogin = computed(() => {
-  return !authStore.userName;
-});
-
-const performSearch = () => {
-  alert("ok");
-};
-
-const cartQuantity = computed(() => {
-  // Lấy giỏ hàng từ localStorage hoặc trả về mảng rỗng nếu không có
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  // Tính tổng số lượng sản phẩm trong giỏ hàng
-  return cart.reduce((total, item) => total + item.quantity, 0);
-});
-</script>
 
 <style scoped>
 * {
@@ -165,5 +217,19 @@ input.form-control:focus {
 }
 btn-search:hover {
   background-color: #fff;
+}
+
+/* menu-login/setting */
+.dropdown-menu {
+  line-height: 1.5;
+  width: 300px;
+  height: 200px;
+  padding: 15px;
+  text-align: center;
+  border-radius: 13px;
+}
+.dropdown-menu img {
+  border-radius: 50%;
+  margin-bottom: 10px;
 }
 </style>

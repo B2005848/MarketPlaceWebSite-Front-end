@@ -94,6 +94,7 @@ const addToCart = (product) => {
   } else {
     cart.push({
       id: product.ProductID,
+      Image: product.ImageURL,
       name: product.Name,
       price: product.Price,
       quantity: 1,

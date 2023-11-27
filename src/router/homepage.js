@@ -9,6 +9,16 @@ const homepage = [
     },
   },
 
+  // view detail order
+  {
+    path: "/orders/details",
+    name: "order-details",
+    component: () => import("../pages/homepage/details.order.vue"),
+    meta: {
+      title: "Shineonyou | Order details",
+    },
+  },
+
   {
     path: "/carts",
     name: "Cart",
@@ -46,6 +56,7 @@ const homepage = [
           title: "Shineonyou | Order Completed",
         },
       },
+
       {
         path: "empty",
         name: "Cart-empty",

@@ -4,7 +4,7 @@
       <img src="../../assets/complete.svg" width="340" alt="" />
     </div>
     <div class="h2">YOUR ORDER HAS BEEN SUCCESSFULLY PLACED</div>
-    <router-link to="/accounts/login">View order details</router-link>
+    <router-link to="/orders/details">View order details</router-link>
   </div>
 </template>
 

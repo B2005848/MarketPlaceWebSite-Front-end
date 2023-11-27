@@ -15,6 +15,22 @@ td {
 .checkout button:hover {
   background-color: #fa5e78;
 }
+
+.cart-summary {
+  text-align: right;
+  margin-top: 20px;
+  margin-right: 15px;
+}
+
+.total-quantity,
+.total-price {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.total-price {
+  color: red;
+}
 </style>
 <template>
   <!-- list cart -->
@@ -41,13 +57,14 @@ td {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(record, index) in products" :key="index">
+          <tr v-for="(record, index) in cartStore.cart" :key="index">
             <td>
               <!-- check to checkout -->
               <input
                 type="checkbox"
                 v-model="record.isSelected"
                 :disabled="loading"
+                @change="updateSelectedProducts"
               />
             </td>
             <td>
@@ -56,17 +73,17 @@ td {
                   class="mb-2"
                   style="max-width: 50px"
                   :src="record.Image"
-                  :title="record.Name"
+                  :title="record.name"
                   alt=""
                 />
               </div>
               <div>{{ record.name || "N/A" }}</div>
             </td>
-            <td>{{ record.price || "N/A" }}.000<sub>đ</sub></td>
+            <td>{{ formatCurrency(record.price) }}</td>
             <td>
               <div>
                 <button
-                  @click="decrementQuantity(record)"
+                  @click="cartStore.decrementQuantity(record)"
                   :disabled="record.Quantity <= 1 || loading"
                 >
                   -
@@ -78,19 +95,19 @@ td {
                   v-model="record.Quantity"
                   @input="updateTotal(record)"
                 />
-                <button @click="incrementQuantity(record)" :disabled="loading">
+                <button
+                  @click="cartStore.incrementQuantity(record)"
+                  :disabled="loading"
+                >
                   +
                 </button>
               </div>
             </td>
-            <td style="color: red">
-              <sup><u>đ</u></sup
-              >{{ record.price * record.Quantity }}.000
-            </td>
+            <td style="color: red">{{ formatCurrency(record.Total) }}</td>
             <td>
               <button
                 class="border-0"
-                @click="deleteProduct(index)"
+                @click="cartStore.deleteProduct(index)"
                 :disabled="loading"
               >
                 <font-awesome-icon
@@ -106,6 +123,14 @@ td {
   </div>
   <div v-if="loading" class="text-center mt-3">
     <span class="spinner-border text-primary"></span>
+  </div>
+  <div class="cart-summary">
+    <div class="total-quantity">
+      Total Quantity: {{ cartStore.selectedQuantity }}
+    </div>
+    <div class="total-price">
+      Total Price: {{ formatCurrency(cartStore.totalPrice) }}
+    </div>
   </div>
 
   <!-- if products empty render page null products -->
@@ -129,94 +154,64 @@ td {
 </template>
 
 <script setup>
-import { onMounted, ref, computed, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthUser } from "@/stores/auth-userlogin.js";
+import { useCartStore } from "../../stores/cart-store.js";
+
 const authuser = useAuthUser();
+const cartStore = useCartStore();
 const showchecklogin = ref(false);
 const router = useRouter();
 const selectAll = ref(false);
 const showTable = ref(true);
-const products = ref([]);
+console.log(cartStore);
 const loading = ref();
-
 const checkout = () => {
   if (!authuser.userName) {
     showchecklogin.value = true;
   } else {
     showchecklogin.value = false;
+    const selectedProducts = cartStore.cart.filter(
+      (product) => product.isSelected
+    );
+
+    cartStore.updateCart(selectedProducts);
+
     router.push("/carts/checkout");
   }
 };
 
-const getCartFromLocalStorage = () => {
-  const storedCart = JSON.parse(localStorage.getItem("cart"));
-  console.log("Stored Cart: ", storedCart);
-  if (storedCart.length > 0) {
-    products.value = storedCart.map((item) => {
-      return {
-        id: item.id,
-        Image: item.Image,
-        name: item.name || "N/A",
-        price: item.price || 0,
-        Quantity: item.Quantity || 1,
-        quantity: item.quantity || 0,
-      };
-    });
-    selectAll.value = false;
-    showTable.value = products.value.length > 0;
+const updateTotal = (record) => {
+  if (record && record.Quantity !== undefined) {
+    record.Total = record.Quantity * record.price;
+    record.TotalFormatted = formatCurrency(record.Total);
+    cartStore.updateProduct(record); // Cập nhật store với thông tin sản phẩm mới
+    cartStore.updateTotalPrice(record); // Cập nhật total price trong store
   } else {
-    showTable.value = products.value.length > 0;
-    console.log("No stored cart data");
-    router.push("empty");
+    console.error("Invalid record or Quantity:", record);
   }
 };
 
-// Insert Quantity
-const incrementQuantity = (record) => {
-  record.Quantity++;
-  updateLocalStorage();
-};
-
-const decrementQuantity = (record) => {
-  if (record.Quantity > 1) {
-    record.Quantity--;
-    updateLocalStorage();
-  }
-};
-
-const calculateTotal = computed(() => {
-  return products.value.map((record) => {
-    const total = record.Price * record.Quantity;
-    record.Total = total;
-    return total;
-  });
-});
-
-watch(
-  () => calculateTotal.value,
-  (newTotal) => {
-    console.log("calculateTotal changed:", newTotal);
-    updateLocalStorage();
-  }
+const calculateTotal = computed(() =>
+  cartStore.cart.map((record) => record.price * record.Quantity)
 );
 
-const updateTotal = (record) => {
-  record.Total = record.Quantity * record.Price;
-  updateLocalStorage();
-};
-
-// delete products button
-const deleteProduct = (index) => {
-  products.value.splice(index, 1);
-  updateLocalStorage();
-};
-
-const updateLocalStorage = () => {
-  localStorage.setItem("cart", JSON.stringify(products.value));
-};
-
-onMounted(() => {
-  getCartFromLocalStorage();
+watch(calculateTotal, (newTotal) => {
+  console.log("New total:", newTotal);
 });
+
+// define VND
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value);
+};
+
+const selectAllRows = () => {
+  cartStore.cart.forEach((product) => {
+    product.isSelected = selectAll.value;
+  });
+};
 </script>

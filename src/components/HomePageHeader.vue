@@ -1,8 +1,10 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useAuthUser } from "@/stores/auth-userlogin";
+import { useCartStore } from "../stores/cart-store";
 const searchInput = ref("");
 const authStore = useAuthUser();
+const cartStore = useCartStore();
 const showLogin = computed(() => {
   return !authStore.userName;
 });
@@ -32,15 +34,13 @@ const getInfoUser = async () => {
     console.error("An error occurred while logging in:", error);
   }
 };
+const cartQuantity = computed(() => {
+  return cartStore.cart.reduce((total, product) => total + product.quantity, 0);
+});
+console.log(cartQuantity);
 
 onMounted(() => {
   getInfoUser();
-});
-
-const cartQuantity = computed(() => {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  return cart.reduce((total, item) => total + item.quantity, 0);
 });
 </script>
 

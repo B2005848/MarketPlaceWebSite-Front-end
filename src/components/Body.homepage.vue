@@ -25,7 +25,7 @@
                 style="font-size: 12px; max-width: 100%; padding-bottom: 10px"
                 class="card-text"
               >
-                {{ product.Price }}.000 VNĐ
+                {{ formatCurrency(product.Price) }}
               </p>
             </div>
             <div class="overlay">
@@ -33,7 +33,7 @@
                 icon="fa-solid fa-cart-plus"
                 size="2x"
                 style="color: #ef4565; font-weight: 500px"
-                @click="addToCart(product)"
+                @click.prevent="addToCart(product)"
               />
             </div>
           </div>
@@ -62,7 +62,9 @@
 import { onMounted, ref } from "vue";
 import axios from "axios";
 import Paginate from "vuejs-paginate-next";
+import { useCartStore } from "../stores/cart-store";
 
+const cartStore = useCartStore();
 const data = ref([]);
 const totalPages = ref(0);
 let currentPage = ref(1);
@@ -85,26 +87,14 @@ const fetchProducts = async (page) => {
 };
 
 const addToCart = (product) => {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cartStore.addToCart(product);
+};
 
-  const existingProduct = cart.find((item) => item.id === product.ProductID);
-
-  if (existingProduct) {
-    existingProduct.quantity++;
-  } else {
-    cart.push({
-      id: product.ProductID,
-      Image: product.ImageURL,
-      name: product.Name,
-      price: product.Price,
-      quantity: 1,
-    });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  alert(`Đã thêm ${product.Name} vào giỏ hàng.`);
-  console.log("Cart after adding:", cart);
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(value);
 };
 
 onMounted(() => {

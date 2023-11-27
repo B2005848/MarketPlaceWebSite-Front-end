@@ -12,13 +12,29 @@ button {
   </header>
 
   <div class="container mt-5">
-    <div class="d-flex">
-      <h2>Store name: ...</h2>
-      <button>Visit Store</button>
+    <div>
+      <h2 class>Purchase Reciept</h2>
+      <div class="mt-5">
+        <h4>Store name:....</h4>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Products</th>
+            <th>Unit price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(orderDetail, index) in orderDetails" :key="index">
+            <td>{{ orderDetail.productName }}</td>
+            <td>{{ formatCurrency(orderDetail.totalPrice) }}</td>
+            <td>{{ orderDetail.status }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <ul>
-      <li>div</li>
-    </ul>
   </div>
 
   <hr />

@@ -1,7 +1,34 @@
+<style scoped>
+.info {
+  background-color: aliceblue;
+}
+
+form .row div {
+  margin-bottom: 15px;
+}
+
+label {
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+.btn-place-order {
+  margin-top: 50px;
+  padding: 20px 70px 20px 40px;
+  border-radius: 13px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  font-weight: bold;
+}
+
+.btn-place-order:hover {
+  background-color: antiquewhite;
+}
+</style>
+
 <template>
   <div class="checkout-form row m-3">
-    <div class="border-end col m-3">
-      <form>
+    <div class="border-end col info">
+      <form @submit.prevent="order" class="m-5">
         <div>
           <!-- FIRSTNAME -->
           <div class="row">
@@ -108,16 +135,34 @@
     </div>
 
     <!-- Phần tóm tắt đơn hàng -->
-    <div class="col">
-      <h4>Order Summary</h4>
-      <ul>
-        <li v-for="(product, index) in products" :key="index">
-          {{ product.name }} x{{ product.Quantity }} -
-          {{ product.price * product.Quantity }}.000<sub>đ</sub>
-        </li>
-      </ul>
-      <div>Total: .000<sub>đ</sub></div>
-      <button>Place Order</button>
+    <div class="col Summary-Order">
+      <div class="mb-5">
+        <h4>Order Summary</h4>
+        <ul>
+          <li v-for="(product, index) in cartStore.cart" :key="index">
+            {{ product.name }} x{{ product.Quantity }} -
+            {{ currencyStore.formatCurrency(product.price * product.Quantity) }}
+          </li>
+        </ul>
+        <div>
+          <b>TOTAL PRICE:</b>
+          {{ currencyStore.formatCurrency(cartStore.totalPrice) }}
+        </div>
+      </div>
+
+      <div class="button-place-order text-center">
+        <button type="submit" class="btn-place-order">
+          <i>PLACE ORDER</i>
+          <span
+            ><font-awesome-icon
+              icon="fas fa-clipboard-check"
+              beat
+              size="lg"
+              style="color: #5d8fe5"
+              class="ms-3"
+          /></span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -125,6 +170,14 @@
 <script setup>
 import { useAuthUser } from "@/stores/auth-userlogin.js";
 import { onMounted, ref } from "vue";
+import { useCartStore } from "../../stores/cart-store.js";
+
+// Trong component của bạn
+import { useCurrencyStore } from "@/stores/define-vnd.js";
+
+const currencyStore = useCurrencyStore();
+
+const cartStore = useCartStore();
 
 const useStore = useAuthUser();
 const username = useStore.userName;
@@ -134,31 +187,6 @@ const userInfo = ref({
   ContactAddress: "",
   Email: "",
 });
-const products = ref([]);
-const getCartFromLocalStorage = () => {
-  const storedCart = JSON.parse(localStorage.getItem("cart"));
-  console.log("Stored Cart: ", storedCart);
-
-  if (storedCart) {
-    products.value = storedCart.map((item) => {
-      return {
-        id: item.id,
-        Image: item.Image,
-        name: item.name || "N/A",
-        price: item.price || 0,
-        Quantity: item.Quantity || 1,
-        quantity: item.quantity || 0,
-      };
-    });
-  } else {
-    products.value = [];
-  }
-};
-
-// const placeOrder = () => {
-//   // Xử lý đặt hàng ở đây
-//   console.log("Placing order...");
-// };
 
 const getInfoUser = async () => {
   try {
@@ -176,6 +204,5 @@ const getInfoUser = async () => {
 
 onMounted(() => {
   getInfoUser();
-  getCartFromLocalStorage();
 });
 </script>

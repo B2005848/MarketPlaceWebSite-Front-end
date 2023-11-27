@@ -3,6 +3,16 @@ td {
   vertical-align: middle;
 }
 
+.table-responsive {
+  background-color: #f8627e;
+  padding: 20px;
+  border-radius: 13px;
+  width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .checkout button {
   color: rgb(255, 255, 255);
   font-size: large;
@@ -30,6 +40,18 @@ td {
 
 .total-price {
   color: red;
+}
+
+/* show error after checkout */
+.checklogin {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  background-color: rgb(62, 62, 242);
+  padding: 20px;
+  color: aliceblue;
+  border-radius: 13px;
 }
 </style>
 <template>
@@ -79,7 +101,7 @@ td {
               </div>
               <div>{{ record.name || "N/A" }}</div>
             </td>
-            <td>{{ formatCurrency(record.price) }}</td>
+            <td>{{ currencyStore.formatCurrency(record.price) }}</td>
             <td>
               <div>
                 <button
@@ -103,7 +125,9 @@ td {
                 </button>
               </div>
             </td>
-            <td style="color: red">{{ formatCurrency(record.Total) }}</td>
+            <td style="color: red">
+              {{ currencyStore.formatCurrency(record.Total) }}
+            </td>
             <td>
               <button
                 class="border-0"
@@ -129,7 +153,7 @@ td {
       Total Quantity: {{ cartStore.selectedQuantity }}
     </div>
     <div class="total-price">
-      Total Price: {{ formatCurrency(cartStore.totalPrice) }}
+      Total Price: {{ currencyStore.formatCurrency(cartStore.totalPrice) }}
     </div>
   </div>
 
@@ -146,7 +170,21 @@ td {
     </button>
   </div>
 
-  <span v-if="showchecklogin">Please login to go to checkout page</span>
+  <div class="checklogin z-2" v-if="showchecklogin">
+    Please login to go to checkout page!
+    <div class="text-center mt-2">
+      <router-link
+        style="
+          color: antiquewhite;
+          text-decoration: none;
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+        "
+        to="/accounts/login"
+      >
+        <p>Click <b>OK</b></p>
+      </router-link>
+    </div>
+  </div>
   <div>
     <div><h4>YOU MAY ALSO LIKE</h4></div>
     <div></div>
@@ -158,9 +196,11 @@ import { ref, computed, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthUser } from "@/stores/auth-userlogin.js";
 import { useCartStore } from "../../stores/cart-store.js";
+import { useCurrencyStore } from "../../stores/define-vnd";
 
 const authuser = useAuthUser();
 const cartStore = useCartStore();
+const currencyStore = useCurrencyStore();
 const showchecklogin = ref(false);
 const router = useRouter();
 const selectAll = ref(false);
@@ -185,7 +225,7 @@ const checkout = () => {
 const updateTotal = (record) => {
   if (record && record.Quantity !== undefined) {
     record.Total = record.Quantity * record.price;
-    record.TotalFormatted = formatCurrency(record.Total);
+    record.TotalFormatted = currencyStore.formatCurrency(record.Total);
     cartStore.updateProduct(record); // Cập nhật store với thông tin sản phẩm mới
     cartStore.updateTotalPrice(record); // Cập nhật total price trong store
   } else {
@@ -200,14 +240,6 @@ const calculateTotal = computed(() =>
 watch(calculateTotal, (newTotal) => {
   console.log("New total:", newTotal);
 });
-
-// define VND
-const formatCurrency = (value) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(value);
-};
 
 const selectAllRows = () => {
   cartStore.cart.forEach((product) => {

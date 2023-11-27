@@ -205,7 +205,7 @@ const showchecklogin = ref(false);
 const router = useRouter();
 const selectAll = ref(false);
 const showTable = ref(true);
-console.log(cartStore);
+
 const loading = ref();
 const checkout = () => {
   if (!authuser.userName) {
@@ -217,7 +217,6 @@ const checkout = () => {
     );
 
     cartStore.updateCart(selectedProducts);
-
     router.push("/carts/checkout");
   }
 };
@@ -228,6 +227,7 @@ const updateTotal = (record) => {
     record.TotalFormatted = currencyStore.formatCurrency(record.Total);
     cartStore.updateProduct(record); // Cập nhật store với thông tin sản phẩm mới
     cartStore.updateTotalPrice(record); // Cập nhật total price trong store
+    cartStore.updateTotalValues();
   } else {
     console.error("Invalid record or Quantity:", record);
   }
@@ -245,5 +245,6 @@ const selectAllRows = () => {
   cartStore.cart.forEach((product) => {
     product.isSelected = selectAll.value;
   });
+  cartStore.updateTotalValues();
 };
 </script>

@@ -76,7 +76,7 @@
       </div>
 
       <div>
-        <router-link to="carts/checkout-done" class="router-link">
+        <router-link :to="{ name: 'order-completed' }" class="router-link">
           <font-awesome-icon
             class="checkout-done z-2 rounded-5 cart-shopping-process"
             icon="fa-solid fa-circle-check"

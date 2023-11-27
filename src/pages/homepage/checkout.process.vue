@@ -28,113 +28,109 @@ label {
 <template>
   <div class="checkout-form row m-3">
     <div class="border-end col info">
-      <form @submit.prevent="order" class="m-5">
-        <div>
-          <!-- FIRSTNAME -->
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="first-name" class="form-label"
-                >First Name <span class="text-danger">*</span></label
+      <form class="m-5">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="first-name" class="form-label"
+              >First Name <span class="text-danger">*</span></label
+            >
+            <input
+              v-model="userInfo.FirstName"
+              type="text"
+              id="first-name"
+              class="form-control"
+            />
+            <div class="invalid-feedback">Valid first name is required.</div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="last-name" class="form-label"
+              >Last Name <span class="text-danger">*</span></label
+            >
+            <input
+              v-model="userInfo.LastName"
+              type="text"
+              id="last-name"
+              class="form-control"
+            />
+            <div class="invalid-feedback">Valid last name is required.</div>
+          </div>
+
+          <div class="mt-2">
+            <label for="phone" class="form-label"
+              >Number phone <span class="text-danger">*</span></label
+            >
+            <input
+              type="tel"
+              id="phone"
+              class="form-control"
+              required
+              pattern="[0-9]{10}"
+            />
+            <div class="invalid-feedback">Your phone number is required.</div>
+          </div>
+
+          <div class="mt-2">
+            <label for="email" class="form-label">Email (Optional)</label>
+            <input
+              v-model="userInfo.Email"
+              type="email"
+              id="email"
+              class="form-control"
+            />
+            <div class="invalid-feedback">
+              Please enter a valid email address for shipping updates.
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <label for="address" class="form-label"
+              >Address <span class="text-danger">*</span></label
+            >
+            <input
+              v-model="userInfo.ContactAddress"
+              type="text"
+              id="address"
+              class="form-control"
+            />
+            <div class="invalid-feedback">
+              Please enter your shipping address.
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                name="paymentMethod"
+                type="radio"
+                value="1"
+                id="cod"
+                @change="updatePaymentMethodID(1)"
+                :checked="paymentMethodID === 1"
+              />
+              <label class="form-check-label" for="cod"
+                >Cash on Delivery (COD)</label
               >
-              <input
-                v-model="userInfo.FirstName"
-                type="text"
-                id="first-name"
-                class="form-control"
-              />
-              <div class="invalid-feedback">Valid first name is required.</div>
             </div>
 
-            <!-- LASTNAME -->
-            <div class="col-sm-6">
-              <label for="last-name" class="form-label"
-                >Last Name <span class="text-danger">*</span></label
-              >
+            <div class="form-check">
               <input
-                v-model="userInfo.LastName"
-                type="text"
-                id="last-name"
-                class="form-control"
+                class="form-check-input"
+                name="paymentMethod"
+                type="radio"
+                value="2"
+                id="banking"
+                @change="updatePaymentMethodID(2)"
+                :checked="paymentMethodID === 2"
               />
-              <div class="invalid-feedback">Valid last name is required.</div>
-            </div>
-
-            <!-- NUMBERPHONE -->
-            <div class="mt-2">
-              <label for="phone" class="form-label"
-                >Number phone <span class="text-danger">*</span></label
-              >
-              <input
-                type="tel"
-                id="phone"
-                class="form-control"
-                required
-                pattern="[0-9]{10}"
-              />
-              <div class="invalid-feedback">Your phone number is required.</div>
-            </div>
-
-            <!-- EMAIL -->
-            <div class="mt-2">
-              <label for="email" class="form-label">Email (Optional)</label>
-              <input
-                v-model="userInfo.Email"
-                type="email"
-                id="email"
-                class="form-control"
-              />
-              <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
-              </div>
-            </div>
-
-            <!-- ADDRESS -->
-            <div class="mt-2">
-              <label for="address" class="form-label"
-                >Address <span class="text-danger">*</span></label
-              >
-              <input
-                v-model="userInfo.ContactAddress"
-                type="text"
-                id="address"
-                class="form-control"
-              />
-              <div class="invalid-feedback">
-                Please enter your shipping address..
-              </div>
-            </div>
-
-            <div class="mt-4">
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  name="paymentMethod"
-                  type="radio"
-                  value="COD"
-                  id="cod"
-                />
-                <label class="form-check-label" for="cod">
-                  Cash on Delivery (COD)
-                </label>
-              </div>
-
-              <div class="form-check">
-                <input
-                  class="form-check-input"
-                  name="paymentMethod"
-                  type="radio"
-                  value="BANKING"
-                  id="banking"
-                />
-                <label class="form-check-label" for="banking"> Banking </label>
-              </div>
+              <label class="form-check-label" for="banking">Banking</label>
             </div>
           </div>
         </div>
       </form>
     </div>
 
-    <!-- Phần tóm tắt đơn hàng -->
     <div class="col Summary-Order">
       <div class="mb-5">
         <h4>Order Summary</h4>
@@ -151,7 +147,7 @@ label {
       </div>
 
       <div class="button-place-order text-center">
-        <button type="submit" class="btn-place-order">
+        <button type="button" @click="order" class="btn-place-order">
           <i>PLACE ORDER</i>
           <span
             ><font-awesome-icon
@@ -170,23 +166,54 @@ label {
 <script setup>
 import { useAuthUser } from "@/stores/auth-userlogin.js";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
 import { useCartStore } from "../../stores/cart-store.js";
-
-// Trong component của bạn
 import { useCurrencyStore } from "@/stores/define-vnd.js";
 
 const currencyStore = useCurrencyStore();
-
 const cartStore = useCartStore();
-
 const useStore = useAuthUser();
+const router = useRouter();
 const username = useStore.userName;
 const userInfo = ref({
+  UserID: "",
   FirstName: "",
   LastName: "",
   ContactAddress: "",
   Email: "",
 });
+const paymentMethodID = ref(1);
+const updatePaymentMethodID = (value) => {
+  paymentMethodID.value = value;
+};
+const order = async () => {
+  try {
+    await getInfoUser(); // Fetch user information before placing the order
+
+    const orderData = {
+      userID: userInfo.value.UserID,
+      products: cartStore.cart.map((product) => ({
+        ProductID: product.id,
+        Quantity: product.Quantity,
+      })),
+      paymentMethodID: parseInt(paymentMethodID.value),
+    };
+
+    const response = await window.axios.post(
+      "http://localhost:3000/api/products/orders/create",
+      orderData
+    );
+
+    if (response.status === 201) {
+      console.log("Order placed successfully:", response.data.order);
+      router.push("/carts/completed");
+    } else {
+      console.error("Failed to place order:", response.data.message);
+    }
+  } catch (error) {
+    console.error("An error occurred while submitting the order", error);
+  }
+};
 
 const getInfoUser = async () => {
   try {

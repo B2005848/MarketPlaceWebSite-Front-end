@@ -26,7 +26,7 @@ export const useCartStore = defineStore("cart-store", {
           Quantity: 1,
           Total: product.Price,
           quantity: 1,
-          isSelected: false, // Thêm trạng thái isSelected cho sản phẩm
+          isSelected: false,
         });
       }
 
@@ -62,14 +62,14 @@ export const useCartStore = defineStore("cart-store", {
     incrementQuantity(product) {
       const updatedProduct = { ...product, Quantity: product.Quantity + 1 };
       this.updateProduct(updatedProduct);
-      this.updateTotalValues;
+      this.updateTotalValues();
     },
 
     decrementQuantity(product) {
       if (product.Quantity > 1) {
         const updatedProduct = { ...product, Quantity: product.Quantity - 1 };
         this.updateProduct(updatedProduct);
-        this.updateTotalValues;
+        this.updateTotalValues();
       }
     },
 

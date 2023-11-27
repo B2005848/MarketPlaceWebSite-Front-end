@@ -16,6 +16,7 @@ const homepage = [
     meta: {
       title: "Shineonyou | Shopping Cart",
     },
+    // cart list
     children: [
       {
         path: "check",
@@ -25,12 +26,24 @@ const homepage = [
           title: "Shineonyou | Cart",
         },
       },
+
+      // check out order
       {
         path: "checkout",
         name: "Cart-checkout",
         component: () => import("../pages/homepage/checkout.process.vue"),
         meta: {
           title: "Shineonyou | Checkout",
+        },
+      },
+
+      // done order
+      {
+        path: "completed",
+        name: "order-completed",
+        component: () => import("../pages/homepage/done.order.vue"),
+        meta: {
+          title: "Shineonyou | Order Completed",
         },
       },
       {

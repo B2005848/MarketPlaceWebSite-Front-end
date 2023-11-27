@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="card">
-      <h5 class="card-header">LIST PRODUCTS</h5>
+      <h5 class="card-header">LIST ALL PRODUCTS</h5>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table table-striped">

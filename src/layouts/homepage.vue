@@ -4,20 +4,13 @@
   </header>
 
   <div class="mt-3">
-    <div class="gril">
-      <!-- menu sidebar -->
-      <div>
-        <h1 style="font-size: 20px">PRODUCT CATALOG</h1>
-        <theMenuSidebar />
-      </div>
+    <div class="main">
       <!-- img banner -->
-      <div>
-        <theBanner />
-        <div class="mt-5">
-          <theMain />
-        </div>
+      <theBanner />
+
+      <div class="p-2 mt-5 border-top">
+        <theMain />
       </div>
-      <div></div>
     </div>
   </div>
 
@@ -32,15 +25,16 @@
 <script setup>
 import theHeader from "@/components/HomePageHeader.vue";
 import theBanner from "@/components/banner.homepage.vue";
-import theMenuSidebar from "@/components/Menusidebar.homepage.vue";
 import theFooter from "@/components/Footer.homepage.vue";
 import theMain from "@/components/Body.homepage.vue";
 </script>
 
 <style scoped>
-.gril {
-  display: grid;
-  grid-template-columns: 0.2fr 1fr 0.2fr;
-  justify-content: space-between;
+.main {
+  max-width: 80%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: aliceblue;
 }
 </style>

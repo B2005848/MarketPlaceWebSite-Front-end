@@ -9,6 +9,10 @@ const showLogin = computed(() => {
   return !authStore.userName;
 });
 
+const showLogout = computed(() => {
+  return authStore.userName;
+});
+
 const performSearch = () => {
   alert("ok");
 };
@@ -138,21 +142,55 @@ onMounted(() => {
               <li class="mb-3">
                 <p style="font-size: 12px">{{ userInfo.Email }}</p>
               </li>
-              <li>
+              <li v-if="!showLogin">
                 <img :src="userInfo.ImageURL" width="50" alt="" />
                 <p>Hi, {{ userInfo.FirstName + userInfo.LastName }}</p>
               </li>
+
+              <!-- setting accounts -->
               <li>
-                <span v-if="showLogin" class="me-3">
+                <span v-if="showLogout">
                   <router-link :to="{ name: 'login-page' }"
-                    ><span style="font-size: 12px">LOGIN</span></router-link
+                    ><span
+                      style="
+                        font-size: 10px;
+                        font-family: 'Lucida Sans', 'Lucida Sans Regular',
+                          'Lucida Grande', 'Lucida Sans Unicode', Geneva,
+                          Verdana, sans-serif;
+                      "
+                      >MY ACCOUNT</span
+                    ></router-link
+                  >
+                </span>
+              </li>
+
+              <!-- cart list -->
+              <li>
+                <span v-if="showLogout">
+                  <router-link :to="{ name: 'login-page' }"
+                    ><span
+                      style="
+                        font-size: 10px;
+                        font-family: 'Lucida Sans', 'Lucida Sans Regular',
+                          'Lucida Grande', 'Lucida Sans Unicode', Geneva,
+                          Verdana, sans-serif;
+                      "
+                      >ORDER PURCHASED</span
+                    ></router-link
                   >
                 </span>
               </li>
               <li>
-                <span class="me-3">
-                  <router-link :to="{ name: 'Homepage' }"
-                    ><span style="font-size: 12px">LOG OUT</span></router-link
+                <span v-if="showLogin">
+                  <router-link :to="{ name: 'login-page' }"
+                    ><span style="font-size: 13px">LOGIN</span></router-link
+                  >
+                </span>
+              </li>
+              <li>
+                <span v-if="showLogout">
+                  <router-link :to="{ name: 'login-page' }"
+                    ><span style="font-size: 13px">LOG OUT</span></router-link
                   >
                 </span>
               </li>
@@ -207,7 +245,7 @@ input.form-control {
   padding-left: 15px;
   height: 40px;
   border-radius: 15px;
-  border: 1px solid #ccc; /* Màu viền mặc định */
+  border: 1px solid #ccc;
   transition: border-color 0.3s;
 }
 
@@ -223,7 +261,6 @@ btn-search:hover {
 .dropdown-menu {
   line-height: 1.5;
   width: 300px;
-  height: 200px;
   padding: 15px;
   text-align: center;
   border-radius: 13px;

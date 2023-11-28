@@ -29,7 +29,7 @@ onMounted(() => {
     >
       <div class="card text-center">
         <div>
-          <img src="" alt="IMG" />
+          <img :src="catadata.ImageURL" style="height: 50px" alt="IMG" />
         </div>
         <div>
           <a href="">{{ catadata.CategoryName }}</a>

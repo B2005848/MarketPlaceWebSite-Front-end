@@ -24,6 +24,7 @@ button {
             <th>Unit price</th>
             <th>Quantity</th>
             <th>Total</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +32,8 @@ button {
             <td>{{ orderDetail.productName }}</td>
             <td>{{ formatCurrency(orderDetail.totalPrice) }}</td>
             <td>{{ orderDetail.status }}</td>
+            <td></td>
+            <td></td>
           </tr>
         </tbody>
       </table>

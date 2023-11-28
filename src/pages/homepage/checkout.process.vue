@@ -205,8 +205,9 @@ const order = async () => {
     );
 
     if (response.status === 201) {
-      console.log("Order placed successfully:", response.data.order);
-      router.push("/carts/completed");
+      const orderID = response.data.order[0];
+      console.log("Order placed successfully:", orderID);
+      router.push(`/carts/completed?orderID=${orderID}`);
     } else {
       console.error("Failed to place order:", response.data.message);
     }

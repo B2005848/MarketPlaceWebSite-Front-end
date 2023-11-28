@@ -11,7 +11,7 @@ const homepage = [
 
   // view detail order
   {
-    path: "/orders/details",
+    path: "/orders/details/:orderID",
     name: "order-details",
     component: () => import("../pages/homepage/details.order.vue"),
     meta: {

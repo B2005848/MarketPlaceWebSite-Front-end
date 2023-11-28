@@ -1,9 +1,3 @@
-<style scoped>
-.container {
-  line-height: 1.2cm;
-}
-</style>
-
 <template>
   <header>
     <theHeader />
@@ -27,11 +21,13 @@
         </thead>
         <tbody>
           <tr v-for="(orderDetail, index) in orderDetails" :key="index">
-            <td>{{ orderDetail.productName }}</td>
-            <td>{{ formatCurrency(orderDetail.unitPrice) }}</td>
-            <td>{{ orderDetail.quantity }}</td>
-            <td>{{ formatCurrency(orderDetail.totalPrice) }}</td>
-            <td>{{ orderDetail.status }}</td>
+            <td>{{ orderDetail.ProductID }}</td>
+            <td>{{ currencyStore.formatCurrency(orderDetail.UnitPrice) }}</td>
+            <td>{{ orderDetail.Quantity }}</td>
+            <td>{{ currencyStore.formatCurrency(orderDetail.TotalPrice) }}</td>
+            <td v-if="orderDetail.Status === 'pending'" class="text-success">
+              {{ orderDetail.Status }}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -47,25 +43,32 @@
 <script setup>
 import theHeader from "@/components/HomePageHeader.vue";
 import theFooter from "@/components/Footer.homepage.vue";
+import { useCurrencyStore } from "../../stores/define-vnd.js";
 import { ref, onMounted } from "vue";
-const orderDetails = ref([
-  // Dữ liệu đơn hàng từ API
-]);
+import { useRoute } from "vue-router";
 
-const storeName = ref(""); // Thêm biến storeName
+const orderID = ref(null);
+const route = useRoute();
+const orderDetails = ref([]);
+const storeName = ref("");
 
-const formatCurrency = (amount) => {
-  // Hàm định dạng tiền tệ
-  // ...
+const currencyStore = useCurrencyStore();
 
-  return amount; // Placeholder, bạn cần thay thế với logic thực tế
-};
+orderID.value = route.params.orderID;
+onMounted(async () => {
+  try {
+    const response = await window.axios.get(
+      `http://localhost:3000/api/products/orders/details/${orderID.value}`
+    );
 
-onMounted(() => {
-  // Lấy dữ liệu đơn hàng từ API và cập nhật orderDetails và storeName
-  // ...
-
-  // Ví dụ:
-  storeName.value = "Tên cửa hàng"; // Thay thế 'Tên cửa hàng' bằng giá trị thực tế từ dữ liệu
+    if (response.data && response.data.detailOrderData) {
+      orderDetails.value = response.data.detailOrderData;
+      storeName.value = response.data.detailOrderData[0].SellerUserID;
+    } else {
+      console.error("Failed to fetch order details.");
+    }
+  } catch (error) {
+    console.error("An error occurred while fetching order details.", error);
+  }
 });
 </script>

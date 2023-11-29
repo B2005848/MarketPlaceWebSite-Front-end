@@ -41,13 +41,10 @@
             <thead>
               <tr>
                 <th>No.</th>
-                <th @click="sortTable('Username')">Username</th>
+                <th>Username</th>
                 <th>Password</th>
-                <th @click="sortTable('RoleID')">RoleID</th>
-                <th @click="sortTable('StatusID')">Status</th>
-                <th @click="sortTable('RegistrationDate')">
-                  Registration Date
-                </th>
+                <th>Status</th>
+                <th>Registration Date</th>
                 <th>Tools</th>
               </tr>
             </thead>
@@ -189,17 +186,6 @@ const sortUsers = () => {
   } else {
     users.value = [...originalUsers.value];
   }
-};
-
-const sortTable = (column) => {
-  if (sortColumn.value === column) {
-    sortDirection.value = -sortDirection.value;
-  } else {
-    sortColumn.value = column;
-    sortDirection.value = 1;
-  }
-
-  sortUsers();
 };
 
 watch(sortColumn, () => {

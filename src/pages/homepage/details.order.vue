@@ -6,9 +6,7 @@
   <div class="container mt-5">
     <div>
       <h2 class>Purchase Receipt</h2>
-      <div class="mt-5">
-        <h4>Store name: {{ storeName }}</h4>
-      </div>
+      <div class="mt-5"></div>
       <table class="table">
         <thead>
           <tr>
@@ -50,7 +48,6 @@ import { useRoute } from "vue-router";
 const orderID = ref(null);
 const route = useRoute();
 const orderDetails = ref([]);
-const storeName = ref("");
 
 const currencyStore = useCurrencyStore();
 
@@ -63,7 +60,6 @@ onMounted(async () => {
 
     if (response.data && response.data.detailOrderData) {
       orderDetails.value = response.data.detailOrderData;
-      storeName.value = response.data.detailOrderData[0].SellerUserID;
     } else {
       console.error("Failed to fetch order details.");
     }

@@ -3,7 +3,7 @@
     <!-- introduction for shine on you  -->
     <div class="d-flex justify-content-center">
       <pre class="text-center lh-lg">
-    Welcome to <b>SHINEONYOU</b> – Your One-Stop Destination for All Your Shopping Needs! At SHINEONYOU, we take pride in being your go-to online marketplace
+    Welcome to <b style="color:#ff6e6c;">SHINEONYOU</b> – Your One-Stop Destination for All Your Shopping Needs! At SHINEONYOU, we take pride in being your go-to online marketplace
     where you can find a diverse range of products to meet all your needs. Whether you're looking for the latest fashion trends, high-quality
     electronics, stylish home decor, or any other essentials, we've got you covered. Explore our extensive collection that spans across various
     categories, carefully curated to bring you the best in every sector. Our commitment is to provide a seamless and enjoyable shopping experience,

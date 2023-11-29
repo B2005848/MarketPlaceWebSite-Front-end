@@ -60,25 +60,9 @@
                     icon="fa-solid fa-store"
                     size="xl"
                     style="color: #0b2d60; padding-right: 10px"
-                  />Products: <span class="text-info">78</span>
+                  />Purchased Product <span class="text-info">78</span>
                 </li>
               </router-link>
-
-              <li class="mb-4">
-                <font-awesome-icon
-                  icon="fa-solid fa-user-plus"
-                  size="xl"
-                  style="color: #0b2d60; padding-right: 10px"
-                />Followers: <span class="text-info">78</span>
-              </li>
-
-              <li class="mb-4">
-                <font-awesome-icon
-                  icon="far fa-star"
-                  size="xl"
-                  style="color: #0b2d60; padding-right: 10px"
-                />Rating: <span class="text-info">5 *</span>
-              </li>
 
               <li class="mb-4">
                 <font-awesome-icon
@@ -175,7 +159,7 @@
             <p class="mb-0 ms-2">Birthday</p>
           </div>
           <div class="col-sm-9">
-            <p class="text-muted mb-0">{{ formatBirhDay(users.Birthday) }}</p>
+            <p class="text-muted mb-0">{{ formatBirhDay(users.BirthDay) }}</p>
           </div>
         </div>
         <hr />
@@ -265,8 +249,8 @@ const formatDatetime = (datetime) => {
   return moment(datetime).format("DD/MM/YYYY (HH:mm)");
 };
 
-const formatBirhDay = (date) => {
-  return moment(date).format("DD/MM/YYYY");
+const formatBirhDay = (datetime) => {
+  return moment(datetime).format("DD/MM/YYYY");
 };
 
 const deteUser = async () => {

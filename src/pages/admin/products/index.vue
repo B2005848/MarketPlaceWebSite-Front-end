@@ -15,7 +15,6 @@
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Sold</th>
-                <th>SellerID</th>
                 <th>Tools</th>
               </tr>
             </thead>
@@ -26,12 +25,10 @@
                 <td>{{ record.Name }}</td>
                 <td>{{ record.Description }}</td>
                 <td>{{ record.CategoryID }}</td>
-                <td>{{ record.Price }}.000 VNĐ</td>
+                <td>{{ currencyStore.formatCurrency(record.Price) }}</td>
                 <td>{{ record.Quantity }}</td>
                 <td>Null</td>
-                <td>
-                  <a href="">{{ record.username }}</a>
-                </td>
+
                 <td></td>
               </tr>
             </tbody>
@@ -73,6 +70,9 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import Paginate from "vuejs-paginate-next";
+import { useCurrencyStore } from "@/stores/define-vnd";
+
+const currencyStore = useCurrencyStore();
 
 const products = ref([]);
 const totalPages = ref(0);

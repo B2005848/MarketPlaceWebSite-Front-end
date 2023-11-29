@@ -60,8 +60,7 @@ onMounted(() => {
             size="2xs"
             style="color: #d6f538"
           />
-          Shine On You - "Browsing with Confidence, Marketplace with a
-          Difference"</span
+          Shine On You - "Transform Your Home, Transform Your Life."</span
         >
       </div>
     </div>

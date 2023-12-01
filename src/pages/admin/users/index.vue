@@ -136,8 +136,6 @@ const getUsers = async (page) => {
 
 // FILTER
 const filterName = ref("");
-const filterRoleID = ref("");
-
 const filterUsers = async () => {
   if (!originalUsers.length) {
     originalUsers = [...users.value];
@@ -200,7 +198,7 @@ watch(sortDirection, () => {
 watch([sortColumn, sortDirection], () => {
   sortUsers();
 });
-watch([filterName, filterRoleID], filterUsers);
+watch(filterName, filterUsers);
 
 onMounted(() => {
   getUsers(currentPage.value);

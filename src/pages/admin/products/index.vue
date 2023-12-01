@@ -50,7 +50,7 @@ td {
                   <router-link
                     :to="{
                       name: 'products-edit',
-                      params: { id: record.ProductID },
+                      params: { id: record.VariantID },
                     }"
                     ><font-awesome-icon
                       icon="fa-regular fa-pen-to-square"

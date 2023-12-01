@@ -1,14 +1,15 @@
 <template>
   <div>
     <div class="row">
-      <div v-for="(product, index) in data" :key="index" class="col-md-2 mb-4">
+      <div v-for="(product, index) in data" :key="index" class="col-md-3 mb-4">
         <a href="" class="card-link">
           <div class="card" style="height: 300px">
             <img :src="product.ImageURL" class="card-img-top" alt="" />
             <div class="card-body">
               <h5
                 style="
-                  font-size: 12px;
+                  font-size: 15px;
+                  text-align: center;
                   max-width: 100%;
                   max-height: 3.6em;
                   overflow: hidden;

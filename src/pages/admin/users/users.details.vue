@@ -48,22 +48,6 @@
 
           <div class="col-sm-7">
             <ul class="list-group" style="list-style: none">
-              <router-link
-                style="text-decoration: none"
-                :to="{
-                  name: 'admin-usersdetails-products',
-                  params: { username },
-                }"
-              >
-                <li class="mb-4">
-                  <font-awesome-icon
-                    icon="fa-solid fa-store"
-                    size="xl"
-                    style="color: #0b2d60; padding-right: 10px"
-                  />Purchased Product <span class="text-info">78</span>
-                </li>
-              </router-link>
-
               <li class="mb-4">
                 <font-awesome-icon
                   icon="fas fa-chalkboard-user"

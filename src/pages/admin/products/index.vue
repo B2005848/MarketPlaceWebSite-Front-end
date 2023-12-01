@@ -1,3 +1,11 @@
+<style scoped>
+th,
+td {
+  text-align: center;
+  vertical-align: middle;
+}
+</style>
+
 <template>
   <div>
     <div class="card">
@@ -10,7 +18,7 @@
                 <th>No.</th>
                 <th>ID</th>
                 <th>Name</th>
-                <th>Desciption</th>
+                <th>Image</th>
                 <th>Category</th>
                 <th>Price</th>
                 <th>Quantity</th>
@@ -20,16 +28,35 @@
             </thead>
             <tbody>
               <tr v-for="(record, index) in products" :key="index">
-                <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
+                <td style="font-weight: bold">
+                  {{ (currentPage - 1) * itemsPerPage + index + 1 }}
+                </td>
                 <td>{{ record.ProductID }}</td>
                 <td>{{ record.Name }}</td>
-                <td>{{ record.Description }}</td>
+                <td>
+                  <img
+                    style="border-radius: 13px"
+                    :src="record.ImageURL"
+                    width="100"
+                    alt=""
+                  />
+                </td>
                 <td>{{ record.CategoryID }}</td>
                 <td>{{ currencyStore.formatCurrency(record.Price) }}</td>
                 <td>{{ record.Quantity }}</td>
                 <td>Null</td>
 
-                <td></td>
+                <td>
+                  <router-link
+                    :to="{
+                      name: 'products-edit',
+                      params: { id: record.ProductID },
+                    }"
+                    ><font-awesome-icon
+                      icon="fa-regular fa-pen-to-square"
+                      style="color: #274e91"
+                  /></router-link>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -50,19 +77,6 @@
         :page-class="'page-item'"
       >
       </paginate>
-
-      <!-- case 2 use pagination bootstrap-->
-      <!-- <ul class="pagination">
-            <li
-              class="page-item"
-              v-for="pageNumber in totalPages"
-              :key="pageNumber"
-            >
-              <a class="page-link" @click="changePage(pageNumber)">{{
-                pageNumber
-              }}</a>
-            </li>
-          </ul> -->
     </nav>
   </div>
 </template>

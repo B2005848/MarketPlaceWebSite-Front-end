@@ -169,11 +169,11 @@
         <hr />
       </div>
 
-      <div class="card-item mt-5">
+      <!-- <div class="card-item mt-5">
         <div class="mb-3">
           <Ad_chart></Ad_chart>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -206,7 +206,7 @@
 
 <script setup>
 import { useRouter } from "vue-router";
-import Ad_chart from "@/components/Ad_chart.vue";
+// import Ad_chart from "@/components/Ad_chart.vue";
 import { ref, onMounted, nextTick } from "vue";
 import moment from "moment";
 

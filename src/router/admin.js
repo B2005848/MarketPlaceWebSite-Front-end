@@ -31,12 +31,6 @@ const admin = [
         component: () => import("../pages/admin/users/users.details.vue"),
         meta: { title: "Shineonyou | Admin | AccountsDetails" },
       },
-      {
-        path: "users/details/products/:username",
-        name: "admin-usersdetails-products",
-        component: () => import("../pages/admin/users/users.products.vue"),
-        meta: { title: "Shineonyou | Admin | AccountsDetails - Products" },
-      },
 
       {
         path: "products",
@@ -44,6 +38,13 @@ const admin = [
         component: () => import("../pages/admin/products/index.vue"),
         meta: { title: "Shineonyou | Admin | Products" },
       },
+      {
+        path: "products/edit/:id",
+        name: "products-edit",
+        component: () => import("../pages/admin/products/edit.products.vue"),
+        meta: { title: "Shineonyou | Admin | Edit Products" },
+      },
+
       {
         path: "oders",
         name: "admin-oders",

@@ -71,8 +71,8 @@ form input {
 </template>
 <script setup>
 import { ref } from "vue";
-import { useRoute } from "vue-router";
-const route = useRoute();
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const name = ref("");
 const description = ref("");
@@ -80,10 +80,11 @@ const category = ref("");
 const price = ref(0);
 const quantity = ref(0);
 const imagePreview = ref(null);
-
+const imageData = ref(null);
 const handleImageChange = (event) => {
   const file = event.target.files[0];
   if (file) {
+    imageData.value = file.name;
     showImagePreview(file);
   }
 };
@@ -96,6 +97,8 @@ const showImagePreview = (file) => {
   reader.readAsDataURL(file);
 };
 
+const VariantID = router.currentRoute.value.params.id;
+
 const submitForm = async () => {
   try {
     const formData = {
@@ -104,13 +107,10 @@ const submitForm = async () => {
       Category: category.value,
       Price: price.value,
       Quantity: quantity.value,
-      ImageURL: imagePreview.value,
+      ImageURL: imageData.value,
     };
-    const ProductID = ref(null);
-    ProductID.value = route.params.VariantID;
-
     const response = await window.axios.put(
-      `http://localhost:3000/api/products/updateProduct/${ProductID.value}`,
+      `http://localhost:3000/api/products/updateProduct/${VariantID}`,
       formData
     );
 

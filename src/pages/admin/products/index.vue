@@ -32,7 +32,10 @@ td {
                   {{ (currentPage - 1) * itemsPerPage + index + 1 }}
                 </td>
                 <td>{{ record.ProductID }}</td>
-                <td>{{ record.Name }}</td>
+                <td>
+                  {{ record.Name }} <br />
+                  {{ record.Size }}
+                </td>
                 <td>
                   <img
                     style="border-radius: 13px"

@@ -3,9 +3,12 @@
     <div class="row">
       <div v-for="(product, index) in data" :key="index" class="col-md-3 mb-4">
         <a href="" class="card-link">
-          <div class="card" style="height: 300px">
+          <div class="card" style="height: 350px">
             <img :src="product.ImageURL" class="card-img-top" alt="" />
             <div class="card-body">
+              <p class="text-center" style="font-size: 15px; max-width: 100%">
+                {{ product.Size }} mm
+              </p>
               <h5
                 style="
                   font-size: 15px;

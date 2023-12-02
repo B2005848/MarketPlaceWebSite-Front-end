@@ -19,7 +19,9 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="mb-5 ms-5"><h3>PRODUCT LIST</h3></div>
+  <div class="mb-5 ms-5">
+    <h3>PRODUCT CATALOG</h3>
+  </div>
 
   <div class="row">
     <div

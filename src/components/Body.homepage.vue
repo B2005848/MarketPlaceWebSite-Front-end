@@ -1,19 +1,25 @@
 <template>
   <div>
     <div class="row">
-      <div v-for="(product, index) in data" :key="index" class="col-md-3 mb-4">
+      <div v-for="(product, index) in data" :key="index" class="col-md-2 mb-4">
         <a href="" class="card-link">
-          <div class="card" style="height: 350px">
+          <div class="card" style="height: 400px">
             <img
-              :src="'http://localhost:3000/uploads/' + product.ImageURL"
+              :src="
+                isURL(product.ImageURL)
+                  ? product.ImageURL
+                  : 'http://localhost:3000/uploads/' + product.ImageURL
+              "
               alt=""
               style="height: 50%; width: 100%"
+              class="card-img-top"
             />
 
             <div class="card-body">
-              <p class="text-center" style="font-size: 15px; max-width: 100%">
+              <p class="text-center" style="font-size: 10px; max-width: 100%">
                 {{ product.Size }} mm
               </p>
+              <p class="text-center">{{ product.Material }}</p>
               <h5
                 style="
                   font-size: 15px;
@@ -26,7 +32,7 @@
                 "
                 class="card-title"
               >
-                {{ product.Name }}
+                {{ product.productname }}
               </h5>
             </div>
             <div class="price text-center">
@@ -72,6 +78,10 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import Paginate from "vuejs-paginate-next";
 import { useCartStore } from "../stores/cart-store";
+const isURL = (value) => {
+  const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+  return pattern.test(value);
+};
 
 const cartStore = useCartStore();
 const data = ref([]);

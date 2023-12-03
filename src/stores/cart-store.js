@@ -19,9 +19,12 @@ export const useCartStore = defineStore("cart-store", {
           existingProduct.Quantity * existingProduct.price;
       } else {
         this.cart.push({
+          variantID: product.variantID,
+          material: product.Material,
+          size: product.Size,
           id: product.ProductID,
           Image: product.ImageURL,
-          name: product.Name,
+          name: product.productname,
           price: product.Price,
           Quantity: 1,
           Total: product.Price,
@@ -31,7 +34,7 @@ export const useCartStore = defineStore("cart-store", {
       }
 
       console.log("Cart after adding:", this.cart);
-      alert(`Đã thêm ${product.Name} vào giỏ hàng.`);
+      alert(`Đã thêm ${product.productname} ${product.Material} vào giỏ hàng.`);
 
       // Cập nhật tổng giá và số lượng khi thêm vào giỏ hàng
       this.updateTotalValues();

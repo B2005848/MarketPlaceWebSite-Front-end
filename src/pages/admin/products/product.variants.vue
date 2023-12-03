@@ -51,7 +51,11 @@ td {
                 <td>{{ record.Material }}</td>
                 <td>
                   <img
-                    :src="'http://localhost:3000/uploads/' + record.ImageURL"
+                    :src="
+                      isURL(record.ImageURL)
+                        ? record.ImageURL
+                        : 'http://localhost:3000/uploads/' + record.ImageURL
+                    "
                     alt=""
                     width="100"
                   />
@@ -88,6 +92,12 @@ import { onMounted, ref } from "vue";
 import Paginate from "vuejs-paginate-next";
 import { useRoute } from "vue-router";
 import { useCurrencyStore } from "@/stores/define-vnd.js";
+
+const isURL = (value) => {
+  const pattern = /^(ftp|http|https):\/\/[^ "]+$/;
+  return pattern.test(value);
+};
+
 const currencyStore = useCurrencyStore();
 
 const route = useRoute();

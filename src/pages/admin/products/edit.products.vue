@@ -15,7 +15,11 @@ form input {
   <div class="container d-flex">
     <div class="row">
       <h1>Edit Product</h1>
-      <form @submit.prevent="submitForm">
+      <form
+        @submit.prevent="submitForm"
+        method="post"
+        enctype="multipart/form-data"
+      >
         <!-- name product -->
         <div>
           <label class="col-sm-2" for="name">Name</label>
@@ -84,7 +88,6 @@ const imageData = ref(null);
 const handleImageChange = (event) => {
   const file = event.target.files[0];
   if (file) {
-    imageData.value = file.name;
     showImagePreview(file);
   }
 };
@@ -92,6 +95,8 @@ const handleImageChange = (event) => {
 const showImagePreview = (file) => {
   const reader = new FileReader();
   reader.onload = (e) => {
+    imageData.value = e.target.result;
+
     imagePreview.value = e.target.result;
   };
   reader.readAsDataURL(file);

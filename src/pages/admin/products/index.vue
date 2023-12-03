@@ -39,7 +39,7 @@ td {
                 <td>
                   <img
                     style="border-radius: 13px"
-                    :src="record.ImageURL"
+                    :src="'http://localhost:3000/uploads/' + record.ImageURL"
                     width="100"
                     alt=""
                   />

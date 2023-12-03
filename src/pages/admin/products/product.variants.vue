@@ -10,10 +10,15 @@ td {
   <div>
     <div class="card">
       <div class="card-header d-flex justify-content-between">
-        <div><h5>LIST ALL PRODUCTS</h5></div>
         <div>
-          <span class="me-3">Add a new products that here</span>
-          <router-link :to="{ name: 'products-add' }"
+          <h1>
+            {{ product_name }}
+          </h1>
+          <p>ID: {{ ProductID }}</p>
+        </div>
+        <div>
+          <router-link
+            :to="{ name: 'products-add-var', id: products.ProductID }"
             ><font-awesome-icon
               icon="far fa-square-plus"
               style="color: #1c65e3"
@@ -27,37 +32,33 @@ td {
             <thead>
               <tr>
                 <th>No.</th>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Sold</th>
-                <th>Details</th>
+                <th>Description</th>
+                <th>Size</th>
+                <th>Material</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Tools</th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="(record, index) in products" :key="index">
+            <tbody v-for="(record, index) in products" :key="index">
+              <tr>
                 <td style="font-weight: bold">
                   {{ (currentPage - 1) * itemsPerPage + index + 1 }}
                 </td>
-                <td>{{ record.ProductID }}</td>
+                <td>{{ record.Description }}</td>
+                <td>{{ record.Size }}</td>
+                <td>{{ record.Material }}</td>
                 <td>
-                  {{ record.Name }} <br />
-                  {{ record.Size }}
+                  <img
+                    :src="'http://localhost:3000/uploads/' + record.ImageURL"
+                    alt=""
+                    width="100"
+                  />
                 </td>
-                <td>{{ record.CategoryID }}</td>
+                <td>{{ record.Quantity }} slot</td>
+                <td>{{ currencyStore.formatCurrency(record.Price) }}</td>
                 <td>Null</td>
-
-                <td>
-                  <router-link
-                    :to="{
-                      name: 'product-variants',
-                      params: { id: record.ProductID },
-                    }"
-                    ><font-awesome-icon
-                      icon="fa-solid fa-eye"
-                      style="color: #5e87cf"
-                  /></router-link>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -80,34 +81,19 @@ td {
       </paginate>
     </nav>
   </div>
-
-  <div v-if="showEmpty">
-    <div class="text-center">
-      You do not have any products, you can add new products by clicking this
-      button
-      <router-link :to="{ name: 'products-add' }"
-        ><font-awesome-icon
-          icon="far fa-square-plus"
-          style="color: #1c65e3"
-          size="xl"
-      /></router-link>
-    </div>
-    <div class="text-center">
-      <img :src="getImageUrl('empty_products_admin.gif')" alt="" />
-    </div>
-  </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import Paginate from "vuejs-paginate-next";
-const getImageUrl = (fileName) => `${import.meta.env.BASE_URL}${fileName}`;
+import { useRoute } from "vue-router";
+import { useCurrencyStore } from "@/stores/define-vnd.js";
+const currencyStore = useCurrencyStore();
 
-const showEmpty = computed(() => {
-  return products.value.length == 0;
-});
-
+const route = useRoute();
 const products = ref([]);
+const product_name = ref();
+
 const totalPages = ref(0);
 let currentPage = ref(1);
 const itemsPerPage = 10;
@@ -116,15 +102,17 @@ const changePage = (page) => {
   getData(page);
 };
 
+const ProductID = route.params.id;
+
 const getData = async (page) => {
   try {
     const response = await window.axios.get(
-      `http://localhost:3000/api/products/getAllProductsAdmin/?page=${page}`
+      `http://localhost:3000/api/products/getVariantProduct/${ProductID}?page=${page}`
     );
-
     products.value = response.data.products;
+    product_name.value = response.data.products[0].productname;
     totalPages.value = response.data.totalPages;
-    console.log(response.data);
+    console.log(response.data.products);
   } catch (error) {
     console.error(error);
   }

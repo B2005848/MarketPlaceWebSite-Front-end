@@ -32,12 +32,38 @@ const admin = [
         meta: { title: "Shineonyou | Admin | AccountsDetails" },
       },
 
+      // Products
       {
         path: "products",
         name: "admin-products",
         component: () => import("../pages/admin/products/index.vue"),
         meta: { title: "Shineonyou | Admin | Products" },
       },
+
+      // product variants
+      {
+        path: "product/variants/:id",
+        name: "product-variants",
+        component: () => import("../pages/admin/products/product.variants.vue"),
+        meta: { title: "Shineonyou | Admin | Variants Product" },
+      },
+      // add a new product
+
+      {
+        path: "products/add/",
+        name: "products-add",
+        component: () => import("../pages/admin/products/add.product.vue"),
+        meta: { title: "Shineonyou | Admin | Add Products" },
+      },
+
+      // add a new variant of product
+      {
+        path: "products/add/variant/:id",
+        name: "products-add-var",
+        component: () => import("../pages/admin/products/add.var.products.vue"),
+        meta: { title: "Shineonyou | Admin | Add Variantion Products" },
+      },
+      // edit
       {
         path: "products/edit/:id",
         name: "products-edit",

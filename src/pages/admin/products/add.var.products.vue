@@ -10,11 +10,25 @@ form div {
 form input {
   width: 200px;
 }
+
+.btn-add {
+  font-weight: bold;
+  border-radius: 13px;
+  padding: 10px 30px 10px 30px;
+  background-color: #00c9ff;
+  border: none;
+  transition: ease-in-out 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #006eff;
+  color: rgb(255, 255, 255);
+}
 </style>
 <template>
   <div class="container d-flex">
     <div class="row">
-      <h1 class="text-center">Edit Product</h1>
+      <h1 class="text-center">Add a new variation</h1>
       <form
         @submit.prevent="submitForm"
         method="post"
@@ -22,25 +36,17 @@ form input {
       >
         <!-- name product -->
         <div>
-          <label class="col-sm-2" for="name">Name</label>
-          <input v-model="name" type="text" id="name" />
-        </div>
-
-        <!-- category product -->
-        <div>
-          <label class="col-sm-2" for="category">Category</label>
-          <input v-model="category" type="text" id="category" />
-        </div>
-
-        <!-- quantity -->
-        <div>
-          <label class="col-sm-2" for="quantity">Quantity</label>
-          <input v-model="quantity" type="number" id="quantity" />
+          <label class="col-sm-4" for="material"
+            >Material <sup class="text-danger">*</sup></label
+          >
+          <input v-model="Material" type="text" id="Material" />
         </div>
 
         <!-- Size -->
         <div>
-          <label class="col-sm-2" for="size">Size</label>
+          <label class="col-sm-4" for="size"
+            >Size <sup class="text-danger">*</sup></label
+          >
           <input
             v-model="size"
             type="text"
@@ -49,25 +55,36 @@ form input {
           />
         </div>
 
-        <!-- price -->
-        <div>
-          <label class="col-sm-2" for="price">Price</label>
-          <input v-model="price" type="number" id="price" />
-        </div>
-
         <!-- description -->
         <div>
-          <label class="col-sm-2" for="description">Description</label>
-          <textarea v-model="description" id="description"></textarea>
+          <label class="col-sm-4" for="Quantity"
+            >Quantity <sup class="text-danger">*</sup></label
+          >
+          <input
+            v-model="Quantity"
+            type="text"
+            id="Quantity"
+            placeholder="item"
+          />
+        </div>
+
+        <!-- price -->
+        <div>
+          <label class="col-sm-4" for="price"
+            >Price <sup class="text-danger">*</sup></label
+          >
+          <input v-model="price" type="number" id="price" />
         </div>
 
         <!-- image -->
         <div>
-          <label class="col-sm-2" for="image">Image</label>
+          <label class="col-sm-4" for="image"
+            >Image <sup class="text-danger">*</sup></label
+          >
           <input type="file" id="image" @change="handleImageChange" />
         </div>
-        <div class="btn-update">
-          <button type="submit">Update Product</button>
+        <div class="text-center mt-5">
+          <button class="btn-add" type="submit">SUBMIT</button>
         </div>
       </form>
     </div>
@@ -87,7 +104,7 @@ form input {
   <!-- show result -->
   <div class="mt-3">
     <p v-if="successMessage" class="text-success">
-      "Product updated successfully."
+      "This new variantion was added successfully."
     </p>
     <p v-if="errorMessage" class="text-danger">Product update failed</p>
   </div>
@@ -97,14 +114,14 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const name = ref("");
+const Material = ref("");
 const description = ref("");
-const category = ref("");
 const size = ref("");
 const price = ref(0);
 const quantity = ref(0);
 const imagePreview = ref(null);
 const imageData = ref(null);
+
 const handleImageChange = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -122,25 +139,23 @@ const showImagePreview = (file) => {
   reader.readAsDataURL(file);
 };
 
-const VariantID = router.currentRoute.value.params.id;
-
+const productID = router.currentRoute.value.params.id;
 const successMessage = ref(false);
 const errorMessage = ref(false);
 
 const submitForm = async () => {
   try {
     const formData = {
-      Name: name.value,
-      Description: description.value,
-      Category: category.value,
       Size: size.value,
-      Price: price.value,
-      Quantity: quantity.value,
+      Material: Material.value,
       ImageURL: imageData.value,
+      Quantity: quantity.value,
+      Price: price.value,
+      Description: description.value,
     };
 
-    const response = await window.axios.put(
-      `http://localhost:3000/api/products/updateProduct/${VariantID}`,
+    const response = await window.axios.post(
+      `http://localhost:3000/api/products/create-variants/${productID}`,
       formData
     );
 

@@ -60,7 +60,13 @@ td {
                     width="100"
                   />
                 </td>
-                <td>{{ record.Quantity }} slot</td>
+                <td>
+                  <span v-if="record.Quantity <= 20" class="text-danger">
+                    {{ record.Quantity }} slot
+                  </span>
+
+                  <span v-else> {{ record.Quantity }} slot </span>
+                </td>
                 <td>{{ currencyStore.formatCurrency(record.Price) }}</td>
                 <td>Null</td>
               </tr>

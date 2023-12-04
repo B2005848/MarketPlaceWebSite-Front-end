@@ -44,7 +44,13 @@ td {
                   {{ record.Name }} <br />
                   {{ record.Size }}
                 </td>
-                <td>{{ record.CategoryID }}</td>
+                <td>
+                  <span style="font-weight: bold" class="text-danger">{{
+                    record.CategoryID
+                  }}</span>
+                  <br />
+                  ({{ record.CategoryName }})
+                </td>
                 <td>Null</td>
 
                 <td>

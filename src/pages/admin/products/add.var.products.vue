@@ -61,7 +61,7 @@ form input {
             >Quantity <sup class="text-danger">*</sup></label
           >
           <input
-            v-model="Quantity"
+            v-model="quantity"
             type="text"
             id="Quantity"
             placeholder="item"

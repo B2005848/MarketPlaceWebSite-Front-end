@@ -72,6 +72,7 @@ td {
               />
             </th>
             <th>Products</th>
+            <th>Material</th>
             <th>Unit price</th>
             <th>Quantity</th>
             <th>Total</th>
@@ -99,7 +100,14 @@ td {
                   alt=""
                 />
               </div>
-              <div>{{ record.name || "N/A" }}</div>
+              <div>
+                {{ record.name || "N/A" }} <br />
+                <b>M{{ record.variantID }}</b>
+              </div>
+            </td>
+            <td>
+              {{ record.material }} <br />
+              {{ record.size }}
             </td>
             <td>{{ currencyStore.formatCurrency(record.price) }}</td>
             <td>
@@ -225,8 +233,8 @@ const updateTotal = (record) => {
   if (record && record.Quantity !== undefined) {
     record.Total = record.Quantity * record.price;
     record.TotalFormatted = currencyStore.formatCurrency(record.Total);
-    cartStore.updateProduct(record); // Cập nhật store với thông tin sản phẩm mới
-    cartStore.updateTotalPrice(record); // Cập nhật total price trong store
+    cartStore.updateProduct(record);
+    cartStore.updateTotalPrice(record);
     cartStore.updateTotalValues();
   } else {
     console.error("Invalid record or Quantity:", record);

@@ -10,7 +10,7 @@ export const useCartStore = defineStore("cart-store", {
   actions: {
     addToCart(product) {
       const existingProduct = this.cart.find(
-        (item) => item.id === product.ProductID
+        (item) => item.id === product.VariantID
       );
 
       if (existingProduct) {
@@ -19,7 +19,7 @@ export const useCartStore = defineStore("cart-store", {
           existingProduct.Quantity * existingProduct.price;
       } else {
         this.cart.push({
-          variantID: product.variantID,
+          variantID: product.VariantID,
           material: product.Material,
           size: product.Size,
           id: product.ProductID,

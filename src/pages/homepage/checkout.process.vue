@@ -194,6 +194,7 @@ const order = async () => {
       userID: userInfo.value.UserID,
       products: cartStore.cart.map((product) => ({
         ProductID: product.id,
+        VariantID: product.variantID,
         Quantity: product.Quantity,
       })),
       paymentMethodID: parseInt(paymentMethodID.value),

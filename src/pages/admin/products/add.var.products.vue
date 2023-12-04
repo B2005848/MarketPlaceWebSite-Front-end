@@ -42,6 +42,12 @@ form input {
           <input v-model="Material" type="text" id="Material" />
         </div>
 
+        <!-- Description -->
+        <div>
+          <label class="col-sm-4" for="Description">Description</label>
+          <textarea name="Description" id="" cols="30" rows="10"></textarea>
+        </div>
+
         <!-- Size -->
         <div>
           <label class="col-sm-4" for="size"

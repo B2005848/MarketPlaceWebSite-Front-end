@@ -3,10 +3,23 @@
     <theHeader />
   </header>
 
-  <div class="container mt-5">
+  <div v-if="orderDetails.length > 0" class="container mt-5">
     <div>
       <h2 class>Purchase Receipt</h2>
-      <div class="mt-5"></div>
+      <div class="mt-5">
+        OderID: <span class="text-danger">{{ orderID }}</span>
+      </div>
+      <div class="mb-3">
+        Total payment amount:
+        <span
+          v-if="orderDetails[0].Amount > 0"
+          style="font-size: 20px; font-weight: bold"
+        >
+          {{ currencyStore.formatCurrency(orderDetails[0].Amount) }}</span
+        >
+
+        <span v-else style="font-size: 20px; font-weight: bold"> 0đ</span>
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -17,11 +30,11 @@
             <th>Status</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(orderDetail, index) in orderDetails" :key="index">
-            <td>{{ orderDetail.ProductID }}</td>
+        <tbody v-for="(orderDetail, index) in orderDetails" :key="index">
+          <tr>
+            <td>{{ orderDetail.productname }} <br /></td>
             <td>{{ currencyStore.formatCurrency(orderDetail.UnitPrice) }}</td>
-            <td>{{ orderDetail.Quantity }}</td>
+            <td>{{ orderDetail.Quantityofin }} item</td>
             <td>{{ currencyStore.formatCurrency(orderDetail.TotalPrice) }}</td>
             <td v-if="orderDetail.Status === 'pending'" class="text-success">
               {{ orderDetail.Status }}

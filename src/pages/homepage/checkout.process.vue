@@ -136,7 +136,10 @@ label {
         <h4>Order Summary</h4>
         <ul>
           <li v-for="(product, index) in cartStore.cart" :key="index">
-            {{ product.name }} x{{ product.Quantity }} -
+            {{ product.name }} "{{ product.material }}"" x{{
+              product.Quantity
+            }}
+            -
             {{ currencyStore.formatCurrency(product.price * product.Quantity) }}
           </li>
         </ul>

@@ -68,7 +68,19 @@ td {
                   <span v-else> {{ record.Quantity }} slot </span>
                 </td>
                 <td>{{ currencyStore.formatCurrency(record.Price) }}</td>
-                <td>Null</td>
+                <td>
+                  <router-link
+                    :to="{
+                      name: 'products-edit-var',
+                      params: { id: record.VariantID },
+                    }"
+                  >
+                    <font-awesome-icon
+                      icon="fa-solid fa-eye"
+                      style="color: #2d78be"
+                    />
+                  </router-link>
+                </td>
               </tr>
             </tbody>
           </table>

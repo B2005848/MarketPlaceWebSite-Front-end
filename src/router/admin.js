@@ -65,8 +65,8 @@ const admin = [
       },
       // edit
       {
-        path: "products/edit/:id",
-        name: "products-edit",
+        path: "products/edit-variant/:id",
+        name: "products-edit-var",
         component: () => import("../pages/admin/products/edit.products.vue"),
         meta: { title: "Shineonyou | Admin | Edit Products" },
       },

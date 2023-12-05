@@ -20,16 +20,10 @@ form input {
         method="post"
         enctype="multipart/form-data"
       >
-        <!-- name product -->
+        <!-- Material -->
         <div>
-          <label class="col-sm-2" for="name">Name</label>
-          <input v-model="name" type="text" id="name" />
-        </div>
-
-        <!-- category product -->
-        <div>
-          <label class="col-sm-2" for="category">Category</label>
-          <input v-model="category" type="text" id="category" />
+          <label class="col-sm-2" for="material">Material</label>
+          <input v-model="material" type="text" id="material" />
         </div>
 
         <!-- quantity -->
@@ -87,19 +81,18 @@ form input {
   <!-- show result -->
   <div class="mt-3">
     <p v-if="successMessage" class="text-success">
-      "Product updated successfully."
+      "Product variant updated successfully."
     </p>
     <p v-if="errorMessage" class="text-danger">Product update failed</p>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
-const name = ref("");
 const description = ref("");
-const category = ref("");
+const material = ref("");
 const size = ref("");
 const price = ref(0);
 const quantity = ref(0);
@@ -127,20 +120,32 @@ const VariantID = router.currentRoute.value.params.id;
 const successMessage = ref(false);
 const errorMessage = ref(false);
 
+const getData = async () => {
+  try {
+    const Data = await window.axios.get(
+      `http://localhost:3000/api/products/ProductVariant/${VariantID}`
+    );
+    if (Data.status === 200) {
+      console.log(Data);
+    }
+  } catch (error) {
+    console.error("An error occurred while get product:", error);
+  }
+};
+
 const submitForm = async () => {
   try {
     const formData = {
-      Name: name.value,
       Description: description.value,
-      Category: category.value,
       Size: size.value,
+      Material: material.value,
       Price: price.value,
       Quantity: quantity.value,
       ImageURL: imageData.value,
     };
 
     const response = await window.axios.put(
-      `http://localhost:3000/api/products/updateProduct/${VariantID}`,
+      `http://localhost:3000/api/products/updateVarProduct/${VariantID}`,
       formData
     );
 
@@ -159,4 +164,8 @@ const submitForm = async () => {
     console.error("An error occurred while updating product:", error);
   }
 };
+
+onMounted(() => {
+  getData();
+});
 </script>

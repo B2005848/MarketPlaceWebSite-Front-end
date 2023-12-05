@@ -77,6 +77,14 @@ const admin = [
         component: () => import("../pages/admin/oders/index.vue"),
         meta: { title: "Shineonyou | Admin | Oders" },
       },
+
+      {
+        path: "order/detail/:id",
+        name: "admin-oder-detail",
+        component: () => import("../pages/admin/oders/order.detail.vue"),
+        meta: { title: "Shineonyou | Admin | Oders" },
+      },
+
       {
         path: "tags",
         name: "admin-tags",

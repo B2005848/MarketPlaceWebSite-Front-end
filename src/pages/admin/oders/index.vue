@@ -25,69 +25,73 @@ table {
           />
         </div>
       </div>
+
+      <table class="table table-striped mt-5 table-responsive">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>OrderID</th>
+            <th>Username</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Tools</th>
+          </tr>
+        </thead>
+        <tbody v-for="(record, index) in orders" :key="index">
+          <tr>
+            <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
+            <td>{{ record.OrderID }}</td>
+            <td>{{ record.username }}</td>
+
+            <td>{{ formatDatetime(record.OrderDate) }}</td>
+            <td>
+              <span v-if="(record.Status = 'pending')" class="text-warning">{{
+                record.Status
+              }}</span>
+              <span
+                v-else-if="(record.Status = 'shipped')"
+                class="text-success"
+                >{{ record.Status }}</span
+              >
+              <span
+                v-else-if="(record.Status = 'delivered')"
+                class="text-info"
+                >{{ record.Status }}</span
+              >
+              <span v-else class="text-danger">{{ record.Status }}</span>
+            </td>
+            <td>
+              <router-link
+                :to="{
+                  name: 'admin-oder-detail',
+                  params: { id: record.OrderID },
+                }"
+              >
+                <font-awesome-icon
+                  icon="fa-regular fa-eye"
+                  style="color: #d3d624"
+                />
+              </router-link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <nav class="mt-3" aria-label="Page navigation">
+        <!-- case 1 use pagination vue-->
+        <paginate
+          v-model="currentPage"
+          :page-count="totalPages"
+          :page-range="3"
+          :margin-pages="1"
+          :click-handler="changePage"
+          :prev-text="'Prev'"
+          :next-text="'Next'"
+          :container-class="'pagination'"
+          :page-class="'page-item'"
+        >
+        </paginate>
+      </nav>
     </div>
-    <table class="table table-striped mt-5 table-responsive">
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>OrderID</th>
-          <th>Username</th>
-          <th>Name Product</th>
-          <th>Order Date</th>
-          <th>Status</th>
-          <th>Tools</th>
-        </tr>
-      </thead>
-      <tbody v-for="(record, index) in orders" :key="index">
-        <tr>
-          <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
-          <td>{{ record.OrderID }}</td>
-          <td>{{ record.username }}</td>
-          <td>
-            <b class="text-danger">{{ record.ProductID }}</b> <br />
-            {{ record.productname }}
-          </td>
-          <td>{{ formatDatetime(record.OrderDate) }}</td>
-          <td>
-            <span v-if="(record.Status = 'pending')" class="text-warning">{{
-              record.Status
-            }}</span>
-            <span
-              v-else-if="(record.Status = 'shipped')"
-              class="text-success"
-              >{{ record.Status }}</span
-            >
-            <span v-else-if="(record.Status = 'delivered')" class="text-info">{{
-              record.Status
-            }}</span>
-            <span v-else class="text-danger">{{ record.Status }}</span>
-          </td>
-          <td>
-            <a>
-              <font-awesome-icon
-                icon="fa-regular fa-eye"
-                style="color: #d3d624"
-              />
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <nav class="mt-3" aria-label="Page navigation">
-      <!-- case 1 use pagination vue-->
-      <paginate
-        v-model="currentPage"
-        :page-count="totalPages"
-        :page-range="3"
-        :margin-pages="1"
-        :click-handler="changePage"
-        :prev-text="'Prev'"
-        :next-text="'Next'"
-        :container-class="'pagination'"
-        :page-class="'page-item'"
-      >
-      </paginate>
-    </nav>
   </div>
 </template>
 <script setup>
@@ -117,8 +121,9 @@ const getOrders = async (page) => {
     );
     totalPages.value = response.data.totalPages;
     orders.value = response.data.OrderData; // Update orders directly
-
     originalOrders = [...response.data.OrderData]; // Set originalOrders on initial load
+
+    console.log(response.data);
   } catch (error) {
     console.error(error);
   }

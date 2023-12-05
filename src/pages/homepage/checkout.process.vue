@@ -35,6 +35,7 @@ label {
               >First Name <span class="text-danger">*</span></label
             >
             <input
+              disabled
               v-model="userInfo.FirstName"
               type="text"
               id="first-name"
@@ -48,6 +49,7 @@ label {
               >Last Name <span class="text-danger">*</span></label
             >
             <input
+              disabled
               v-model="userInfo.LastName"
               type="text"
               id="last-name"
@@ -61,6 +63,7 @@ label {
               >Number phone <span class="text-danger">*</span></label
             >
             <input
+              v-model="phone"
               type="tel"
               id="phone"
               class="form-control"
@@ -92,6 +95,7 @@ label {
               type="text"
               id="address"
               class="form-control"
+              disabled
             />
             <div class="invalid-feedback">
               Please enter your shipping address.
@@ -136,9 +140,7 @@ label {
         <h4>Order Summary</h4>
         <ul>
           <li v-for="(product, index) in cartStore.cart" :key="index">
-            {{ product.name }} "{{ product.material }}"" x{{
-              product.Quantity
-            }}
+            {{ product.name }} "{{ product.material }}"" x{{ product.Quantity }}
             -
             {{ currencyStore.formatCurrency(product.price * product.Quantity) }}
           </li>
@@ -185,6 +187,7 @@ const userInfo = ref({
   ContactAddress: "",
   Email: "",
 });
+const phone = ref("");
 const paymentMethodID = ref(1);
 const updatePaymentMethodID = (value) => {
   paymentMethodID.value = value;
@@ -195,6 +198,7 @@ const order = async () => {
 
     const orderData = {
       userID: userInfo.value.UserID,
+      Phone: phone.value,
       products: cartStore.cart.map((product) => ({
         ProductID: product.id,
         VariantID: product.variantID,

@@ -45,21 +45,22 @@ table {
 
             <td>{{ formatDatetime(record.OrderDate) }}</td>
             <td>
-              <span v-if="(record.Status = 'pending')" class="text-warning">{{
+              <span v-if="record.Status === 'pedding'" class="text-warning">{{
                 record.Status
               }}</span>
               <span
-                v-else-if="(record.Status = 'shipped')"
+                v-else-if="record.Status === 'shipped'"
                 class="text-success"
                 >{{ record.Status }}</span
               >
               <span
-                v-else-if="(record.Status = 'delivered')"
+                v-else-if="record.Status === 'delivered'"
                 class="text-info"
                 >{{ record.Status }}</span
               >
               <span v-else class="text-danger">{{ record.Status }}</span>
             </td>
+
             <td>
               <router-link
                 :to="{

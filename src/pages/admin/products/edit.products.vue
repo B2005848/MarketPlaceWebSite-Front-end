@@ -14,7 +14,7 @@ form input {
 <template>
   <div class="container d-flex">
     <div class="row">
-      <h1 class="text-center">Edit Product</h1>
+      <h1 class="text-center">Edit Variant Product</h1>
       <form
         @submit.prevent="submitForm"
         method="post"

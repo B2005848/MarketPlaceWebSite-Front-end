@@ -75,10 +75,7 @@ td {
                       params: { id: record.VariantID },
                     }"
                   >
-                    <font-awesome-icon
-                      icon="fa-solid fa-eye"
-                      style="color: #2d78be"
-                    />
+                    <font-awesome-icon icon="fa-solid fa-pen-to-square" style="color: #7ea6ec;" />
                   </router-link>
                 </td>
               </tr>

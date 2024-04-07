@@ -18,6 +18,7 @@ const admin = [
         component: () => import("../pages/admin/dashboard/index.vue"),
         meta: { title: "Shineonyou | Admin | Dashboard" },
       },
+
       // Accounts
       {
         path: "users",

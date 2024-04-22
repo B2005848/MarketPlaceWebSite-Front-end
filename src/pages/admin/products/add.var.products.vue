@@ -45,7 +45,7 @@ form input {
         <!-- Description -->
         <div>
           <label class="col-sm-4" for="Description">Description</label>
-          <textarea name="Description" id="" cols="30" rows="10"></textarea>
+          <textarea name="Description" id="" cols="23" rows="5"></textarea>
         </div>
 
         <!-- Size -->

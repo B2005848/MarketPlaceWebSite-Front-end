@@ -19,7 +19,7 @@ form input {
       <form @submit.prevent="submitForm">
         <!-- name product -->
         <div>
-          <label class="col-sm-2" for="name">Name</label>
+          <label class="col-sm-2" for="name">Name:</label>
           <input v-model="name" type="text" id="name" />
         </div>
 
@@ -105,9 +105,9 @@ const categories = ref([]);
 onMounted(async () => {
   try {
     const response = await window.axios.get(
-      "http://localhost:3000/api/catagoies/getall"
+      "http://localhost:3000/api/catagories/getall"
     );
-    categories.value = response.data.data;
+    categories.value = response.data[0];
   } catch (error) {
     console.error(error);
   }

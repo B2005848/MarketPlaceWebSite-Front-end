@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div v-for="(product, index) in data" :key="index" class="col-md-2 mb-4">
-        <a href="" class="card-link">
+        <a href="http://localhost:5173/#/product/detail" class="card-link">
           <div class="card" style="height: 400px">
             <img
               :src="
@@ -75,6 +75,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+// import { useRouter } from "vue-router";
 import axios from "axios";
 import Paginate from "vuejs-paginate-next";
 import { useCartStore } from "../stores/cart-store";
@@ -91,7 +92,7 @@ const changePage = (page) => {
   currentPage.value = page;
   fetchProducts(page);
 };
-
+// const router = useRouter();
 const fetchProducts = async (page) => {
   try {
     const response = await axios.get(
@@ -104,6 +105,10 @@ const fetchProducts = async (page) => {
     console.error(error);
   }
 };
+
+// const goToProductPage = () => {
+//   router.push({ name: "product-detail" });
+// };
 
 const addToCart = (product) => {
   cartStore.addToCart(product);

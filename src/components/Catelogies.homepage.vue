@@ -8,9 +8,9 @@ const catadata = ref([]);
 const getData = async () => {
   try {
     const response = await window.axios.get(
-      "http://localhost:3000/api/catagoies/getall"
+      "http://localhost:3000/api/catagories/getall"
     );
-    catadata.value = response.data.data;
+    catadata.value = response.data[0];
     console.log(response);
   } catch (error) {
     console.error(error);

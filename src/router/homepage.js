@@ -9,6 +9,15 @@ const homepage = [
     },
   },
 
+  {
+    path: "/product/detail",
+    name: "product-detail",
+    component: () => import("../pages/homepage/product_detail.vue"),
+    meta: {
+      title: "Shineonyou | Detail",
+    },
+  },
+
   // view detail order
   {
     path: "/orders/details/:orderID",
@@ -16,6 +25,15 @@ const homepage = [
     component: () => import("../pages/homepage/details.order.vue"),
     meta: {
       title: "Shineonyou | Order details",
+    },
+  },
+
+  {
+    path: "/orders/purchased",
+    name: "order-purchased",
+    component: () => import("../pages/homepage/order.purchased.vue"),
+    meta: {
+      title: "Shineonyou | Order purchased",
     },
   },
 

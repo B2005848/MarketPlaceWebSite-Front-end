@@ -58,7 +58,7 @@
     </router-link>
 
     <!-- tags -->
-    <router-link
+    <!-- <router-link
       style="text-decoration: none; text-align: left"
       :to="{ name: 'admin-tags' }"
     >
@@ -67,10 +67,10 @@
           ><font-awesome-icon class="me-3" icon="fas fa-tags" size="xl" /></span
         ><span class="title-icon-menu">Tags</span>
       </div>
-    </router-link>
+    </router-link> -->
 
     <!-- settings -->
-    <router-link
+    <!-- <router-link
       style="text-decoration: none; text-align: left"
       :to="{ name: 'admin-settings' }"
     >
@@ -82,7 +82,7 @@
             size="xl" /></span
         ><span class="title-icon-menu">Settings</span>
       </div>
-    </router-link>
+    </router-link> -->
   </nav>
 </template>
 

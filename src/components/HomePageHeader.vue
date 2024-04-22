@@ -166,7 +166,7 @@ onMounted(() => {
               <!-- cart list -->
               <li>
                 <span v-if="showLogout">
-                  <router-link :to="{ name: 'login-page' }"
+                  <router-link :to="{ name: 'order-purchased' }"
                     ><span
                       style="
                         font-size: 10px;

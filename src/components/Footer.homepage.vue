@@ -95,7 +95,7 @@
     </div>
     <hr />
 
-    <div style="background-color: rgb(208, 223, 236)185, 230)">
+    <div style="background-color: rgb(208, 223, 236) 185, 230">
       <div>
         <p>&copy; 2023 Shineonyou. All Rights Reserved .</p>
       </div>
